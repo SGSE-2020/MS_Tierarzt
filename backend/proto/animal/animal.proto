@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package animal;
+
+option go_package = "server/proto;animal";
+
+service AnimalService {
+    rpc createAnimalData(AnimalCreation) returns (AnimalID) {}
+    rpc getAnimalData(AnimalID) returns (AnimalData) {}
+    rpc deleteAnimalData(AnimalID) returns (Status) {}
+    rpc manipulateAnimalData(AnimalData) returns (Status) {}
+}
+
+message Status{
+    string status = 1;
+    string message = 2;
+}
+
+message AnimalID {
+    string animalid = 1;
+}
+
+message Disease {
+    string diseaseid = 1;
+    string diseasename = 2;
+    string diseasedescription = 3;
+}
+
+message AnimalCreation {
+    string animalname = 1;
+    string animaltype = 2;
+    string animalrace = 3;
+    double animalheight = 4;
+    double animalweight = 5;
+    repeated Disease diseases = 6;
+}
+
+message AnimalData {
+    string animalid = 1;
+    string uid = 2;
+    string animalname = 3;
+    string animaltype = 4;
+    string animalrace = 5;
+    double animalheight = 6;
+    double animalweight = 7;
+    repeated Disease diseases = 8;
+}

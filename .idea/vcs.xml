@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/couchbase/gocb" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/couchbase/gocb/testdata/sdk-testcases" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/google/go-querystring" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/opentracing/opentracing-go" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/segmentio/pointer" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/zemirco/couchdb" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/zemirco/uid" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/gopkg.in/couchbase/gocb.v1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/gopkg.in/couchbase/gocbcore.v7" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/gopkg.in/couchbaselabs/gocbconnstr.v1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/gopkg.in/couchbaselabs/gojcbmock.v1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/gopkg.in/couchbaselabs/jsonx.v1" vcs="Git" />
+  </component>
+</project>

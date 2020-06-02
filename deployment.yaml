@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: ms-vet-frontend
+  name: ms-vet-frontend
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: ms-vet-frontend
+    spec:
+      containers:
+      - image: ms-vet-frontend
+        name: ms-vet-frontend
+        ports:
+        - containerPort: 80
+      restartPolicy: Always
+status: {}
