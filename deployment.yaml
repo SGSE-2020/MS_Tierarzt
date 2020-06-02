@@ -2,20 +2,25 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    app: ms-vet-frontend
-  name: ms-vet-frontend
+    app: ms-tierarzt
+  name: ms-tierarzt
 spec:
   replicas: 1
   strategy: {}
   template:
     metadata:
       labels:
-        app: ms-vet-frontend
+        app: ms-tierarzt
     spec:
       containers:
-      - image: ms-vet-frontend
-        name: ms-vet-frontend
-        ports:
-        - containerPort: 80
+        - image: ms-tierarzt-frontend
+          name: ms-tierarzt-frontend
+          ports:
+            - containerPort: 80
+        - image: ms-tierarzt-backend
+          name: ms-tierarzt-backend
+          ports:
+            - containerPort: 8080
+            - containerPort: 50051
       restartPolicy: Always
 status: {}
