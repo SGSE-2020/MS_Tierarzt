@@ -6,6 +6,7 @@ ENV GO111MODULE=on \
     GOARCH=amd64
 
 # Move to working directory /build
+RUN mkdir /build
 WORKDIR /build
 
 # Copy and download dependency using go mod
@@ -20,6 +21,7 @@ COPY . .
 RUN go build -o main .
 
 # Move to /dist directory as the place for resulting binary folder
+RUN mkdir /dist
 WORKDIR /dist
 
 # Copy binary from build to couchbase folder
