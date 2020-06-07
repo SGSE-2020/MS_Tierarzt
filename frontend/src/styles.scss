@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~@angular/material/theming';
+
+@include mat-core();
+$vet-app-primary: mat-palette($mat-indigo);
+$vet-app-accent:  mat-palette($mat-pink, A200, A100, A400);
+$vet-app-theme:   mat-light-theme($vet-app-primary, $vet-app-accent);
+
+@include mat-core-theme($vet-app-theme);
+@include mat-button-theme($vet-app-theme);
+@include mat-checkbox-theme($vet-app-theme);
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

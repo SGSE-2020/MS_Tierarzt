@@ -1,34 +1,5 @@
 <!doctype html>
 <html lang="en">
 <body>
-  <input type="text" placeholder="E-Mail" id="mail_signin">
-  <input type="password" placeholder="Passwort" id="password_signin">
-  <button onclick="loginUser()">Sign In</button>
-  <button onclick="logoutUser()">Sign Out</button>
-  <p id="user_loggedin">Keiner eingeloggt</p>
-
-
-  <div>
-    <div>
-      <div>Name</div>
-      <input [(ngModel)]="animalname" type="text" placeholder="Tiername">
-    </div>
-    <div>
-      <div>Art</div>
-      <input [(ngModel)]="animaltype" type="text" placeholder="Tierart">
-    </div>
-    <button (click)="addAnimalData()">Add AnimalData</button>
-  </div>
-
-  <br>
-  <br>
-  <br>
-
-  <div *ngFor="let animalDataItem of animaldataItems">
-    <div>{{animalDataItem.animalname}}</div>
-    <div>{{animalDataItem.animaltype}}</div>
-    <br>
-  </div>
-
-  <mat-slider min="1" max="100" step="1" value="1"></mat-slider>
+  <app-header></app-header>
 </body>

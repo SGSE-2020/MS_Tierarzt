@@ -76,8 +76,8 @@ jobs:
     - name: Deploy
       run: |
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
-        ./kustomize edit set image ms-opnv-backend=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE_backend:${GITHUB_SHA}
-        ./kustomize edit set image ms-opnv-frontend=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE_frontend:${GITHUB_SHA}
+        ./kustomize edit set image ms-tierarzt-backend=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE_backend:${GITHUB_SHA}
+        ./kustomize edit set image ms-tierarzt-frontend=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE_frontend:${GITHUB_SHA}
         ./kustomize build . | kubectl apply -f -
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide

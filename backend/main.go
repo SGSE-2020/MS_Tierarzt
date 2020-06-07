@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 	"tierarzt/proto/animal"
 )
 
@@ -42,7 +43,7 @@ func main() {
 			requestBody := animal.AnimalData{}
 			c.Bind(&requestBody)
 
-			animalid := string(id)
+			animalid := strconv.Itoa(id)
 			id = id + 1
 
 			animalData := animal.AnimalData{

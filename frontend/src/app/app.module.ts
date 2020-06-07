@@ -7,11 +7,15 @@ import {FormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSliderModule } from '@angular/material/slider';
 import { KalendarComponent } from './kalendar/kalendar.component';
+import { HeaderComponent } from './header/header.component';
+import { AnimalComponent } from './animal/animal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    KalendarComponent
+    KalendarComponent,
+    HeaderComponent,
+    AnimalComponent
   ],
   imports: [
     BrowserModule,

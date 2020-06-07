@@ -29,3 +29,5 @@ RUN cp /build/main .
 
 # Command to run when starting the container
 CMD ["/dist/main"]
+
+EXPOSE 8080
