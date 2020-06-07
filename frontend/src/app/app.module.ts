@@ -6,9 +6,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {FormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSliderModule } from '@angular/material/slider';
-import { KalendarComponent } from './kalendar/kalendar.component';
-import { HeaderComponent } from './header/header.component';
-import { AnimalComponent } from './animal/animal.component';
+import { KalendarComponent } from './components/kalendar/kalendar.component';
+import { HeaderComponent } from './components/header/header.component';
+import { AnimalComponent } from './components/animal/animal.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AnimalComponent } from './animal/animal.component';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    MatSliderModule
+    MatSliderModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
