@@ -12,4 +12,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  backToPortal() {
+    window.location.href = 'http://portal.dvess.network';
+  }
 }

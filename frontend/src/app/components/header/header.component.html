@@ -1,15 +1,48 @@
 <header>
   <mat-toolbar color="primary" role="heading">
-    <span>SmartCity Tierarzt</span>
+    <span>
+      SmartCity Tierarzt
+
+       <button mat-button color="accent" id="portal_button" (click)="backToPortal()">
+        <mat-icon>dashboard</mat-icon>
+         Portal
+      </button>
+    </span>
 
     <span class="example-fill-remaining-space"></span>
 
     <span>
-      <input type="text" placeholder="E-Mail" id="mail_signin">
-      <input type="password" placeholder="Passwort" id="password_signin">
-      <button onclick="loginUser()">Sign In</button>
-      <button onclick="logoutUser()">Sign Out</button>
-      <p id="user_loggedin">Keiner eingeloggt</p>
+      <button mat-stroked-button color="accent" id="home_button" [routerLink]="['/home']">
+        <mat-icon>home</mat-icon>
+        Home
+      </button>
+
+      <button mat-stroked-button color="accent" id="calendar_button" [routerLink]="['/calendar']">
+        <mat-icon>calendar_today</mat-icon>
+        Termine
+      </button>
+
+      <button mat-stroked-button color="accent" id="administration_button" [routerLink]="['/administration']">
+        <mat-icon>assignment</mat-icon>
+        Verwaltung
+      </button>
+
+      <button mat-stroked-button color="accent" id="message_button" [routerLink]="['/messages']">
+        <mat-icon>message</mat-icon>
+        Nachrichten
+      </button>
+
+      <a id="user_loggedin"></a>
+      <mat-form-field color="accent" id="mail_formfield">
+        <mat-label>E-Mail</mat-label>
+        <input matInput type="text" id="mail_signin">
+      </mat-form-field>
+       <mat-form-field color="accent" id="password_formfield">
+        <mat-label>Passwort</mat-label>
+        <input matInput type="password" id="password_signin">
+      </mat-form-field>
+      <button mat-raised-button color="accent" onclick="loginUser()" id="login_button">Sign In</button>
+      <button mat-raised-button color="accent" onclick="logoutUser()" id="logout_button">Sign Out</button>
     </span>
   </mat-toolbar>
 </header>

@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    
+
     //Firebase Initialisierung
     var config = {
     	    apiKey: "AIzaSyBvTg0_QrhEvQ9UeZPH8--E2JZ55KA_u_c",
@@ -10,6 +10,10 @@ $(document).ready(function () {
     	    messagingSenderId: "957240233717"
     };
     firebase.initializeApp(config);
+    $('#logout_button').hide();
+    $('#calendar_button').hide();
+    $('#administration_button').hide();
+    $('#message_button').hide();
 });
 
     function loginUser() {
@@ -23,6 +27,15 @@ $(document).ready(function () {
                     alert("Token ist:" + idToken);
                     console.log(firebase.auth().currentUser);
                     $('#user_loggedin').html(firebase.auth().currentUser.email);
+                    $('#logout_button').show();
+                    $('#login_button').hide();
+                    $('#mail_formfield').hide();
+                    $('#password_formfield').hide();
+                    $('#mail_signin').val("")
+                    $('#password_signin').val("")
+                    $('#calendar_button').show();
+                    $('#administration_button').show();
+                    $('#message_button').show();
                 }).catch(function(error) {
                     console.log(error);
                 });
@@ -36,16 +49,25 @@ $(document).ready(function () {
                 }
             });
         } else {
-            alert("Bitte Mail und Passwort eingeben"); 
+            alert("Bitte Mail und Passwort eingeben");
         }
     };
-    
+
     function logoutUser() {
 	firebase.auth().signOut().then(function() {
 		//Logout erfolgreich
-        $('#user_loggedin').html("Keiner eingeloggt");
-       
+        $('#user_loggedin').html("");
+      $('#logout_button').hide();
+      $('#login_button').show();
+      $('#mail_formfield').show();
+      $('#password_formfield').show();
+      $('#calendar_button').hide();
+      $('#administration_button').hide();
+      $('#message_button').hide();
+
 	}, function(error) {
+    $('#mail_signin').val("")
+    $('#password_signin').val("")
 		alert("Logout fehlgeschlagen");
 	});
 };
