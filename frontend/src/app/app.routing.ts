@@ -4,6 +4,7 @@ import {HomeComponent} from './components/home/home.component';
 import {CalendarComponent} from './components/calendar/calendar.component';
 import {AdministrationComponent} from './components/administration/administration.component';
 import {MessagesComponent} from './components/messages/messages.component';
+import {AnimalComponent} from './components/animal/animal.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'calendar', component: CalendarComponent, runGuardsAndResolvers: 'always' },
   { path: 'administration', component: AdministrationComponent, runGuardsAndResolvers: 'always' },
   { path: 'messages', component: MessagesComponent, runGuardsAndResolvers: 'always' },
+  { path: 'administration/animals', component: AnimalComponent, runGuardsAndResolvers: 'always' },
 ];
 
 @NgModule({

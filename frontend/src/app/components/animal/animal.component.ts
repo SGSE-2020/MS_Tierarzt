@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import { DOCUMENT } from '@angular/common';
 
 interface IAnimalDataItem {
   animalname: string;
   animaltype: string;
+  animalrace: string;
+  animalheight: number;
+  animalweight: number;
 }
 
 @Component({
@@ -11,14 +15,19 @@ interface IAnimalDataItem {
   templateUrl: './animal.component.html',
   styleUrls: ['./animal.component.css']
 })
+
 export class AnimalComponent implements OnInit {
-
-  public animalname = '';
-  public animaltype = '';
   public animaldataItems: IAnimalDataItem[] = [];
+  name: string;
+  type: string;
+  race: string;
+  height: number;
+  weight: number;
 
-  constructor(
-    private httpClient: HttpClient
+  displayedColumns: string[] = ['name', 'type', 'race', 'height', 'weight'];
+
+  constructor(@Inject(DOCUMENT) document,
+              private httpClient: HttpClient
   ) {
   }
 
@@ -32,13 +41,19 @@ export class AnimalComponent implements OnInit {
 
   async addAnimalData(){
     await this.httpClient.post('/api/animal', {
-      animalname: this.animalname,
-      animaltype: this.animaltype
+      animalname: this.name,
+      animaltype: this.type,
+      animalrace: this.race,
+      animalheight: this.height,
+      animalweight: this.weight,
     }).toPromise();
 
-    await this.loadAnimalData();
-    this.animalname = '';
-    this.animaltype = '';
-  }
+    this.name = '';
+    this.type = '';
+    this.race = '';
+    this.height = null;
+    this.weight = null;
 
+    await this.loadAnimalData();
+  }
 }

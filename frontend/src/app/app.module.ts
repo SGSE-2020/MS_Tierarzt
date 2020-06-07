@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {FormsModule} from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSliderModule } from '@angular/material/slider';
 import { HeaderComponent } from './components/header/header.component';
@@ -18,6 +19,10 @@ import { HomeComponent } from './components/home/home.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { RoutingModule } from './app.routing';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import {CdkTableModule} from '@angular/cdk/table';
+import { MatTableModule  } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -33,6 +38,7 @@ import { RoutingModule } from './app.routing';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    CommonModule,
     HttpClientModule,
     MatSliderModule,
     MatToolbarModule,
@@ -40,7 +46,13 @@ import { RoutingModule } from './app.routing';
     MatButtonModule,
     MatInputModule,
     MatIconModule,
-    RoutingModule
+    RoutingModule,
+    CdkTableModule,
+    MatTableModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

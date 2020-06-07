@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import '~@angular/material/theming';
+@import '../node_modules/flatpickr/dist/flatpickr.min.css';
 
 @include mat-core();
 $vet-app-primary: mat-palette($mat-indigo);
