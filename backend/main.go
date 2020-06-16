@@ -2,14 +2,13 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
-	"strconv"
-	"tierarzt/proto/animal"
-)
+	"tierarzt/couchbase"
+	"tierarzt/httpd/handler"
+) 
 
 func main() {
-	//db := couchbase.ConnectCouchbase()
-	allAnimalData := []animal.AnimalData{}
+	db := couchbase.ConnectCouchbase()
+	/*allAnimalData := []animal.AnimalData{}
 	allAnimalData = append(allAnimalData,
 		animal.AnimalData{
 			Animalid:     "1",
@@ -29,13 +28,13 @@ func main() {
 			Animalheight: 22.4,
 		})
 
-	id := 3
+	id := 3*/
 
 	r := gin.Default()
 
 	api := r.Group("/api")
 	{
-		// Placeholder
+		/*// Placeholder
 		api.GET("/animal", func(c *gin.Context) {
 			c.JSON(http.StatusOK, allAnimalData)
 		})
@@ -60,10 +59,10 @@ func main() {
 			c.JSON(http.StatusCreated, map[string]string{
 				"uid": animalid,
 			})
-		})
+		})*/
 
-		//api.GET("/animal", handler.AnimalGet(db))
-		//api.POST("/animal", handler.AnimalPost(db))
+		api.GET("/animal", handler.AnimalGet(db))
+		api.POST("/animal", handler.AnimalPost(db))
 	}
 
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
