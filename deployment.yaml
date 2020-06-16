@@ -32,6 +32,7 @@ spec:
         volumeMounts:
           - mountPath: /opt/couchbase/var
             name: db
+            subPath: tierarzt-db
       restartPolicy: Always
       volumes:
         - name: db
