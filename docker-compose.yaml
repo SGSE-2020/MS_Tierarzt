@@ -9,10 +9,9 @@ services:
       - api
   
   database:
-    build: backend/couchbase/.
-    #image: couchbase/server
-     # volumes:
-      #  - ~/couchbase/node1: /opt/couchbase/var
+    build: database/.
+    volumes:
+      - ~/couchbase/node1: /opt/couchbase/var
     ports:
       - 8091:8091
       - 8092:8092
@@ -28,5 +27,5 @@ services:
     depends_on:
       - database
 
-#volumes:
-#  database-data:
+volumes:
+  database-data:
