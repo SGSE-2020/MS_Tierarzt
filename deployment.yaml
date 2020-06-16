@@ -13,29 +13,29 @@ spec:
         app: ms-tierarzt
     spec:
       containers:
-        - image: ms-tierarzt-frontend
-          name: ms-tierarzt-frontend
-          ports:
-            - containerPort: 80
-        - image: ms-tierarzt-backend
-          name: ms-tierarzt-backend
-          ports:
-            - containerPort: 8080
-            - containerPort: 50051
-        - image: ms-tierarzt-database
-          name: ms-tierarzt-database
-          ports:
-            - containerPort: 8091
-            - containerPort: 8092
-            - containerPort: 8093
-            - containerPort: 11210
-          volumeMounts:
-            - mountPath: /opt/couchbase/var
-              name: db
-        restartPolicy: Always
-        volumes:
-          - name: db
-            gcePersistentDisk:
-              pdName: ms-tierarzt
-              fsType: ext4
+      - image: ms-tierarzt-frontend
+        name: ms-tierarzt-frontend
+        ports:
+          - containerPort: 80
+      - image: ms-tierarzt-backend
+        name: ms-tierarzt-backend
+        ports:
+          - containerPort: 8080
+          - containerPort: 50051
+      - image: ms-tierarzt-database
+        name: ms-tierarzt-database
+        ports:
+          - containerPort: 8091
+          - containerPort: 8092
+          - containerPort: 8093
+          - containerPort: 11210
+        volumeMounts:
+          - mountPath: /opt/couchbase/var
+            name: db
+      restartPolicy: Always
+      volumes:
+        - name: db
+          gcePersistentDisk:
+            pdName: ms-tierarzt
+            fsType: ext4
 status: {}
