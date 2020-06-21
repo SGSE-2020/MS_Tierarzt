@@ -1,5 +1,3 @@
-import {HeaderComponent} from "./app/components/header/header.component";
-
 $(document).ready(function () {
 
     //Firebase Initialisierung
