@@ -35,7 +35,7 @@ func ValidateUser() gin.HandlerFunc {
 						"User ID": "Der gRPC Call GetUser hat nicht geklappt",
 					})
 				} else {
-					c.JSON(http.StatusInternalServerError, userData)
+					c.JSON(http.StatusOK, userData)
 				}
 			}
 		}

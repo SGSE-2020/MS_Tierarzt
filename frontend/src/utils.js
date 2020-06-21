@@ -1,3 +1,5 @@
+import {HeaderComponent} from "./app/components/header/header.component";
+
 $(document).ready(function () {
 
     //Firebase Initialisierung
@@ -31,10 +33,15 @@ $(document).ready(function () {
                     var url = "/api/user";
                     xhr.open("POST", url, true);
                     xhr.setRequestHeader("Content-type", "application/json");
-                    var data = JSON.stringify({"token":idToken});
-                    var userid = xhr.send(data);
-                    alert("UserID ist:" + userid);
+                    xhr.onreadystatechange = function () {
+                      if (xhr.readyState == 4 && xhr.status == 200) {
+                        var json = JSON.parse(xhr.responseText);
+                        console.log(json.uid)
+                      }
+                    }
 
+                    var data = JSON.stringify({"Token":idToken});
+                    xhr.send(data);
                     console.log(firebase.auth().currentUser);
                     $('#user_loggedin').html(firebase.auth().currentUser.email);
                     $('#logout_button').show();

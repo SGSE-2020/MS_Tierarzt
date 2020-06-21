@@ -12,7 +12,7 @@ func main() {
 	db := couchbase.ConnectCouchbase()
 
 	r := gin.Default()
-	
+
 
 	api := r.Group("/")
 	{
