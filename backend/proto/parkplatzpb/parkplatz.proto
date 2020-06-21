@@ -1,0 +1,21 @@
+syntax = "proto3";
+package parkplatzpb;
+
+service Parkplatz {
+    rpc Reserve (HelloRequest) returns (HelloReply) {}
+    rpc Utilization (HelloRequest) returns (HelloReply) {}
+    rpc Terminate (HelloRequest) returns (HelloReply) {}
+    rpc Provide (HelloRequest) returns (HelloReply) {}
+    rpc Edit (HelloRequest) returns (HelloReply) {}
+    rpc Remove (HelloRequest) returns (HelloReply) {}
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+    string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+    string message = 1;
+}

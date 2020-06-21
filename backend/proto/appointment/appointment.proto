@@ -5,12 +5,12 @@ package appointment;
 option go_package = "server/proto;appointment";
 
 service AppointmentService {
-    rpc createAppointment (AppointmentCreate) returns (AppointmentID);
-    rpc requestAppointment (AppointmentRequest) returns (AppointmentResponse);
-    rpc decideAppointment (AppointmentID) returns (AppointmentData);
-    rpc deleteAppointment (AppointmentID) returns (Status);
-    rpc getAppointment (AppointmentID) returns (AppointmentData);
-    rpc getAppointmentsOfUser (UserID) returns (AppointmentsOfUser);
+    rpc CreateAppointment (AppointmentCreate) returns (AppointmentID);
+    rpc RequestAppointment (AppointmentRequest) returns (AppointmentResponse);
+    rpc DecideAppointment (AppointmentID) returns (AppointmentData);
+    rpc DeleteAppointment (AppointmentID) returns (Status);
+    rpc GetAppointment (AppointmentID) returns (AppointmentData);
+    rpc GetAppointmentsOfUser (UserID) returns (AppointmentsOfUser);
 }
 
 message Status{

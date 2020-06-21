@@ -18,7 +18,9 @@ RUN go mod download
 COPY . .
 
 # Build the application
-RUN go build -o main .
+#RUN go build -o main .
+RUN go build main.go
+RUN go build grpc.go
 
 # Move to /dist directory as the place for resulting binary folder
 RUN mkdir /dist
@@ -30,4 +32,4 @@ RUN cp /build/main .
 # Command to run when starting the container
 CMD ["/dist/main"]
 
-EXPOSE 8080
+EXPOSE 8080 9000

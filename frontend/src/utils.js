@@ -25,6 +25,16 @@ $(document).ready(function () {
                 firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
                     //Token zu Bürgerbüro senden -> Uid zurückbekommen -> Dann User validiert
                     alert("Token ist:" + idToken);
+
+                    let xhr;
+                    xhr = new XMLHttpRequest();
+                    var url = "/api/user";
+                    xhr.open("POST", url, true);
+                    xhr.setRequestHeader("Content-type", "application/json");
+                    var data = JSON.stringify({"token":idToken});
+                    var userid = xhr.send(data);
+                    alert("UserID ist:" + userid);
+
                     console.log(firebase.auth().currentUser);
                     $('#user_loggedin').html(firebase.auth().currentUser.email);
                     $('#logout_button').show();

@@ -5,10 +5,10 @@ package animal;
 option go_package = "server/proto;animal";
 
 service AnimalService {
-    rpc createAnimalData(AnimalCreation) returns (AnimalID) {}
-    rpc getAnimalData(AnimalID) returns (AnimalData) {}
-    rpc deleteAnimalData(AnimalID) returns (Status) {}
-    rpc manipulateAnimalData(AnimalData) returns (Status) {}
+    rpc CreateAnimalData(AnimalCreation) returns (AnimalID) {}
+    rpc GetAnimalData(AnimalID) returns (AnimalData) {}
+    rpc DeleteAnimalData(AnimalID) returns (Status) {}
+    rpc ManipulateAnimalData(AnimalData) returns (Status) {}
 }
 
 message Status{
