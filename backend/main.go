@@ -14,7 +14,7 @@ func main() {
 	r := gin.Default()
 
 
-	api := r.Group("/api")
+	api := r.Group("/")
 	{
 		api.GET("/hello", func(c *gin.Context) {
 			c.JSON(http.StatusOK, "content: hello world!")
