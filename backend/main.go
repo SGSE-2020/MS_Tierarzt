@@ -23,6 +23,7 @@ func main() {
 		api.POST("/animal", handler.AnimalPost(db))
 		api.GET("/animal/:userid", handler.GetUserAnimals(db))
 		api.POST("/user", handler.ValidateUser())
+		api.GET("/user/:userid", handler.GetUserData())
 		api.GET("/vetuser", handler.VetUserGet(db))
 		api.POST("/vetuser", handler.VetUserPost(db))
 		api.GET("/vetuser/:userid", handler.VetUserCheck(db))

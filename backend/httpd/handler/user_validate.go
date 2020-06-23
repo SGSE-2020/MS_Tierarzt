@@ -42,6 +42,29 @@ func ValidateUser() gin.HandlerFunc {
 	}
 }
 
+func GetUserData() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		userid := c.Param("userid")
+
+		userId := user.UserId{
+			Uid: userid,
+		}
+
+		if ConnectGRPC() {
+			client := user.NewUserServiceClient(grpc_client)
+			ctx := context.Background()
+			userData, err := client.GetUser(ctx, &userId)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, map[string]string{
+					"User ID": "Der gRPC Call GetUser hat nicht geklappt, weil:" + grpc.ErrorDesc(err),
+				})
+			} else {
+				c.JSON(http.StatusOK, userData)
+			}
+		}
+	}
+}
+
 func ConnectGRPC() bool {
 	conn, err := grpc.Dial(
 		GRPC_HOST+":"+GRPC_PORT, grpc.WithInsecure())
