@@ -10,10 +10,10 @@ $(document).ready(function () {
     	    messagingSenderId: "957240233717"
     };
     firebase.initializeApp(config);
-    $('#logout_button').hide();
-    $('#calendar_button').hide();
-    $('#administration_button').hide();
-    $('#message_button').hide();
+    // $('#logout_button').hide();
+    // $('#calendar_button').hide();
+    // $('#administration_button').hide();
+    // $('#message_button').hide();
 });
 
 var loggedInUser = {uid: "", name: ""};

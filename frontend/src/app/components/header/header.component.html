@@ -17,32 +17,33 @@
         Home
       </button>
 
-      <button mat-stroked-button color="accent" id="calendar_button" [routerLink]="['/calendar']">
+      <button mat-stroked-button color="accent" id="calendar_button" *ngIf="this.constants.firebaseUser!=null" [routerLink]="['/calendar']">
         <mat-icon>calendar_today</mat-icon>
         Termine
       </button>
 
-      <button mat-stroked-button color="accent" id="administration_button" [routerLink]="['/administration']">
+      <button mat-stroked-button color="accent" id="administration_button" *ngIf="this.constants.firebaseUser!=null" [routerLink]="['/administration']">
         <mat-icon>assignment</mat-icon>
         Verwaltung
       </button>
 
-      <button mat-stroked-button color="accent" id="message_button" [routerLink]="['/messages']">
+      <button mat-stroked-button color="accent" id="message_button" *ngIf="this.constants.firebaseUser!=null" [routerLink]="['/messages']">
         <mat-icon>message</mat-icon>
         Nachrichten
       </button>
 
-      <a id="user_loggedin"></a>
-      <mat-form-field color="accent" id="mail_formfield">
+      <a id="user_loggedin" *ngIf="this.constants.firebaseUser!=null">{{displayname}}</a>
+      <mat-form-field color="accent" id="mail_formfield" *ngIf="this.constants.firebaseUser==null">
         <mat-label>E-Mail</mat-label>
         <input matInput type="text" id="mail_signin" [(ngModel)]="email">
       </mat-form-field>
-       <mat-form-field color="accent" id="password_formfield">
+       <mat-form-field color="accent" id="password_formfield" *ngIf="this.constants.firebaseUser==null">
         <mat-label>Passwort</mat-label>
         <input matInput type="password" id="password_signin" [(ngModel)]="password">
       </mat-form-field>
-      <button mat-raised-button color="accent" (click)="performLogin()" id="login_button">Sign In</button>
-      <button mat-raised-button color="accent" (click)="performLogout()" id="logout_button">Sign Out</button>
+      <button mat-raised-button color="accent" (click)="performLogin()" id="login_button" *ngIf="this.constants.firebaseUser==null">Sign In</button>
+
+      <button mat-raised-button color="accent" (click)="performLogout()" *ngIf="this.constants.firebaseUser!=null" id="logout_button">Sign Out</button>
     </span>
   </mat-toolbar>
 </header>

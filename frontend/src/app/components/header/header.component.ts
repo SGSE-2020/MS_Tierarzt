@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   email: string;
   password: string;
+  displayname: string;
 
   constructor(@Inject(DOCUMENT) document,
               private httpClient: HttpClient,
@@ -60,6 +61,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
             if (val.status === 'success'){
               this.constants.firebaseUser = result.user;
               console.log(this.constants.firebaseUser.toString());
+              this.displayname = this.constants.firebaseUser.displayName;
             }
           });
       });
@@ -68,6 +70,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   performLogout(){
     this.constants.firebaseUser = null;
+    this.displayname = '';
   }
 
   backToPortal(){
