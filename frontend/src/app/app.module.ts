@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,6 +25,11 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import {CdkTableModule} from '@angular/cdk/table';
 import { MatTableModule  } from '@angular/material/table';
+import { CalendarDialogComponent } from './components/calendar/calendar-dialog/calendar-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
+import { GlobalConstantService } from './services/global-constants.service';
+import {environment} from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -32,13 +39,16 @@ import { MatTableModule  } from '@angular/material/table';
     AdministrationComponent,
     HomeComponent,
     MessagesComponent,
-    CalendarComponent
+    CalendarComponent,
+    CalendarDialogComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     CommonModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     HttpClientModule,
     MatSliderModule,
     MatToolbarModule,
@@ -49,12 +59,15 @@ import { MatTableModule  } from '@angular/material/table';
     RoutingModule,
     CdkTableModule,
     MatTableModule,
+    MatDialogModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
   ],
-  providers: [],
+  providers: [
+    GlobalConstantService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

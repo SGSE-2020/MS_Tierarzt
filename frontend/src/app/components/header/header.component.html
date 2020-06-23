@@ -35,14 +35,14 @@
       <a id="user_loggedin"></a>
       <mat-form-field color="accent" id="mail_formfield">
         <mat-label>E-Mail</mat-label>
-        <input matInput type="text" id="mail_signin">
+        <input matInput type="text" id="mail_signin" [(ngModel)]="email">
       </mat-form-field>
        <mat-form-field color="accent" id="password_formfield">
         <mat-label>Passwort</mat-label>
-        <input matInput type="password" id="password_signin">
+        <input matInput type="password" id="password_signin" [(ngModel)]="password">
       </mat-form-field>
-      <button mat-raised-button color="accent" onclick="loginUser()" id="login_button">Sign In</button>
-      <button mat-raised-button color="accent" onclick="logoutUser()" id="logout_button">Sign Out</button>
+      <button mat-raised-button color="accent" (click)="performLogin()" id="login_button">Sign In</button>
+      <button mat-raised-button color="accent" (click)="performLogout()" id="logout_button">Sign Out</button>
     </span>
   </mat-toolbar>
 </header>

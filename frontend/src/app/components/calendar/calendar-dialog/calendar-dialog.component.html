@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Termin Informationen</h1>
+<div mat-dialog-content>
+  <p>Titel: {{data.title}}</p>
+  <p>Beschreibung: {{data.description}}</p>
+  <br>
+  <p>Start: {{data.start.toLocaleString()}}</p>
+  <p>Ende: {{data.end.toLocaleString()}}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+</div>

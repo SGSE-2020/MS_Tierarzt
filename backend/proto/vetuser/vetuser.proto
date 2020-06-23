@@ -1,0 +1,18 @@
+syntax = "proto3";
+package vetuser;
+
+service VetUserService {
+    rpc getUser(VetUserId) returns (VetUser) {}
+}
+
+message VetUserId {
+    string uid = 1;
+}
+
+message VetUser {
+    string uid = 1;
+    int32 gender = 2;  // 0 = Divers - 1 = Male - 2 = Female
+    string firstName = 3;
+    string lastName = 4;
+    bool isEmployee = 5;
+}

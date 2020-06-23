@@ -14,14 +14,20 @@ func main() {
 	r := gin.Default()
 
 
-	api := r.Group("/")
+	api := r.Group("/api")
 	{
 		api.GET("/hello", func(c *gin.Context) {
 			c.JSON(http.StatusOK, "content: hello world!")
 		})
 		api.GET("/animal", handler.AnimalGet(db))
 		api.POST("/animal", handler.AnimalPost(db))
+		api.GET("/animal/:userid", handler.GetUserAnimals(db))
 		api.POST("/user", handler.ValidateUser())
+		api.GET("/vetuser", handler.VetUserGet(db))
+		api.POST("/vetuser", handler.VetUserPost(db))
+		api.GET("/vetuser/:userid", handler.VetUserCheck(db))
+		api.POST("/appointment", handler.AppointmentPost(db))
+		api.GET("/appointment/:userid", handler.GetUserAppointments(db))
 	}
 
 	r.Run()

@@ -46,11 +46,9 @@ func ConnectGRPC() bool {
 	conn, err := grpc.Dial(
 		GRPC_HOST+":"+GRPC_PORT, grpc.WithInsecure())
 	if err != nil {
-		fmt.Print("Keine Verbindung zum grpc-Server")
 		fmt.Print(err)
 		return false
 	} else {
-		fmt.Println("Ich gehe hier trotzdem rein")
 		grpc_client = conn
 		return true
 	}

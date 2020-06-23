@@ -16,6 +16,8 @@ $(document).ready(function () {
     $('#message_button').hide();
 });
 
+var loggedInUser = {uid: "", name: ""};
+
     function loginUser() {
         var email = $('#mail_signin').val();
         var password = $('#password_signin').val();
@@ -24,7 +26,7 @@ $(document).ready(function () {
             firebase.auth().signInWithEmailAndPassword(email, password).then(function(user) {
                 firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
                     //Token zu Bürgerbüro senden -> Uid zurückbekommen -> Dann User validiert
-                    alert("Token ist:" + idToken);
+                    //alert("Token ist:" + idToken);
 
                     let xhr;
                     xhr = new XMLHttpRequest();
@@ -35,13 +37,15 @@ $(document).ready(function () {
                       if (xhr.readyState == 4 && xhr.status == 200) {
                         var json = JSON.parse(xhr.responseText);
                         console.log(json.uid)
+                        loggedInUser.uid = json.uid
                       }
                     }
 
                     var data = JSON.stringify({"Token":idToken});
                     xhr.send(data);
                     console.log(firebase.auth().currentUser);
-                    $('#user_loggedin').html(firebase.auth().currentUser.email);
+                    loggedInUser.name = firebase.auth().currentUser.displayName;
+                    $('#user_loggedin').html(firebase.auth().currentUser.displayName);
                     $('#logout_button').show();
                     $('#login_button').hide();
                     $('#mail_formfield').hide();
@@ -68,24 +72,26 @@ $(document).ready(function () {
         }
     };
 
-    function logoutUser() {
-	firebase.auth().signOut().then(function() {
-		//Logout erfolgreich
-        $('#user_loggedin').html("");
-      $('#logout_button').hide();
-      $('#login_button').show();
-      $('#mail_formfield').show();
-      $('#password_formfield').show();
-      $('#calendar_button').hide();
-      $('#administration_button').hide();
-      $('#message_button').hide();
+function logoutUser() {
+  firebase.auth().signOut().then(function() {
+  //Logout erfolgreich
+  $('#user_loggedin').html("");
+  $('#logout_button').hide();
+  $('#login_button').show();
+  $('#mail_formfield').show();
+  $('#password_formfield').show();
+  $('#calendar_button').hide();
+  $('#administration_button').hide();
+  $('#message_button').hide();
 
-	}, function(error) {
+  }, function(error) {
     $('#mail_signin').val("")
     $('#password_signin').val("")
-		alert("Logout fehlgeschlagen");
-	});
+    alert("Logout fehlgeschlagen");
+  });
 };
 
-
+function getLoggedInUser(){
+  return loggedInUser
+}
 

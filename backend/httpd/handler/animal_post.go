@@ -10,10 +10,11 @@ import (
 
 func AnimalPost(db *gocb.Cluster) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		requestBody := animal.AnimalCreation{}
+		requestBody := animal.AnimalData{}
 		c.Bind(&requestBody)
 
-		animalData := animal.AnimalCreation{
+		animalData := animal.AnimalData{
+			Uid: requestBody.Uid,
 			Animalname: requestBody.Animalname,
 			Animaltype: requestBody.Animaltype,
 			Animalrace: requestBody.Animalrace,
