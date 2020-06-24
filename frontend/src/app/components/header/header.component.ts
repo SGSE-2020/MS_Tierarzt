@@ -69,23 +69,24 @@ export class HeaderComponent implements OnInit, AfterViewInit {
             console.log(this.constants.firebaseUser.toString());
             this.displayname = this.constants.firebaseUser.displayname;
             this.constants.isEmployee = this.employee.isEmployee;
+            this.createVetUser();
           }
         });
       });
     });
+  }
 
-    if (this.constants.firebaseUser !== null) {
-      console.log('Sending request to api');
-      this.httpClient.post(this.constants.host + '/vetuser', {
-        Uid: this.constants.firebaseUser.uid,
-        FirstName: this.constants.firebaseUser.firstName,
-        LastName: this.constants.firebaseUser.lastName,
-        Gender: this.constants.firebaseUser.gender,
-        IsEmployee: 1,
-      });
-      this.employee = await this.httpClient.get<IEmployee>('api/vetuser/' + this.constants.firebaseUser.uid).toPromise();
-      this.constants.isEmployee = this.employee.isEmployee;
-    }
+  async createVetUser() {
+    console.log('Sending request to api');
+    this.httpClient.post(this.constants.host + '/vetuser', {
+      Uid: this.constants.firebaseUser.uid,
+      FirstName: this.constants.firebaseUser.firstName,
+      LastName: this.constants.firebaseUser.lastName,
+      Gender: this.constants.firebaseUser.gender,
+      IsEmployee: true,
+    });
+    this.employee = await this.httpClient.get<IEmployee>('api/vetuser/' + this.constants.firebaseUser.uid).toPromise();
+    this.constants.isEmployee = this.employee.isEmployee;
   }
 
   performLogout()
