@@ -43,7 +43,7 @@
       </mat-form-field>
       <button mat-raised-button color="accent" (click)="performLogin()" id="login_button" *ngIf="this.constants.firebaseUser==null">Sign In</button>
 
-      <button mat-raised-button color="accent" (click)="performLogout()" *ngIf="this.constants.firebaseUser!=null" id="logout_button">Sign Out</button>
+      <button mat-raised-button color="accent" (click)="constants.performLogout()" *ngIf="this.constants.firebaseUser!=null" id="logout_button">Sign Out</button>
     </span>
   </mat-toolbar>
 </header>
