@@ -45,9 +45,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       if (this.constants.firebaseUser.uid !== this.constants.currentUser?.uid){
         this.constants.getCurrentUserData().then(() => {
           if (this.constants.currentUser == null){
-            this.constants.performLogout();
+            this.performLogout();
           } else {
             this.constants.userRole = this.constants.currentUser.role;
+            console.log(this.constants.userRole);
           }
         });
       }
@@ -61,7 +62,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
             if (val.status === 'success'){
               this.constants.firebaseUser = result.user;
               console.log(this.constants.firebaseUser.toString());
-              this.displayname = this.constants.firebaseUser.displayName;
+              this.displayname = this.constants.firebaseUser.firstName + ' ' + this.constants.firebaseUser.lastName;
             }
           });
       });
@@ -70,7 +71,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   performLogout(){
     this.constants.firebaseUser = null;
+    this.email = '';
+    this.password = '';
     this.displayname = '';
+    this.constants.currentUser = null;
+    this.constants.userRole = 0;
+    localStorage.setItem('user', null);
   }
 
   backToPortal(){
