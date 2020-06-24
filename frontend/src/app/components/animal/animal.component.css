@@ -9,6 +9,10 @@ ng-container{
 
 }
 
+table {
+  width: 100%;
+}
+
 h3 {
   margin: 0 0 10px;
 }

@@ -1,6 +1,6 @@
 
 <div style="text-align: center;">
-  <mat-table [dataSource]="animaldataItems" class="mat-elevation-z8">
+  <table mat-table [dataSource]="animaldataItems" class="mat-elevation-z8">
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
       <td mat-cell *matCellDef="let element"> {{element.animalname}} </td>
@@ -26,9 +26,9 @@
       <td mat-cell *matCellDef="let element"> {{element.animalweight}} </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </mat-table>
+  </table>
 </div>
 
 <div style="text-align: center;">

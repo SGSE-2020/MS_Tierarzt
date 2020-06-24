@@ -61,6 +61,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   async performLogin() {
+    console.log('In login');
     this.firebaseAuth.signInWithEmailAndPassword(this.email, this.password).then((result) => {
       result.user.getIdToken(true).then((token) => {
         this.httpClient.post(this.constants.host + '/user', {token}).subscribe((val: any) => {
@@ -78,7 +79,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   async createVetUser() {
     console.log('Sending request to api');
-    this.httpClient.post(this.constants.host + '/vetuser', {
+    this.httpClient.post('api/vetuser', {
       Uid: this.constants.firebaseUser.uid,
       FirstName: this.constants.firebaseUser.firstName,
       LastName: this.constants.firebaseUser.lastName,
