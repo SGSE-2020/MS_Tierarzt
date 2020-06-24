@@ -6,6 +6,10 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+interface IEmployee {
+  isEmployee: boolean;
+}
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -16,6 +20,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   email: string;
   password: string;
   displayname: string;
+  employee: IEmployee;
 
   constructor(@Inject(DOCUMENT) document,
               private httpClient: HttpClient,
@@ -55,18 +60,31 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     }
   }
 
-  performLogin() {
+  async performLogin() {
     this.firebaseAuth.signInWithEmailAndPassword(this.email, this.password).then((result) => {
       result.user.getIdToken(true).then((token) => {
         this.httpClient.post(this.constants.host + '/user', {token}).subscribe((val: any) => {
-            if (val.status === 'success'){
-              this.constants.firebaseUser = result.user;
-              console.log(this.constants.firebaseUser.toString());
-              this.displayname = this.constants.firebaseUser.displayname;
-            }
-          });
+          if (val.status === 'success') {
+            this.constants.firebaseUser = result.user;
+            console.log(this.constants.firebaseUser.toString());
+            this.displayname = this.constants.firebaseUser.displayname;
+          }
+        });
       });
     });
+
+    if (this.constants.firebaseUser != null) {
+      this.employee = await this.httpClient.get<IEmployee>('api/vetuser/' + this.constants.firebaseUser.uid).toPromise();
+      this.constants.isEmployee = this.employee.isEmployee;
+    }
+  }
+
+  performLogout()
+  {
+    this.constants.performLogout();
+    this.email = '';
+    this.password = '';
+    this.displayname = '';
   }
 
   backToPortal(){

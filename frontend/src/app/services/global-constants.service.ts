@@ -13,6 +13,7 @@ export class GlobalConstantService {
   public firebaseUser = null;
   public currentUser = null;
   public userRole = 0;
+  public isEmployee = false;
   public userHasError = false;
   public maxVarcharLength = 255;
   public defaultImage: string;
@@ -34,6 +35,7 @@ export class GlobalConstantService {
       this.firebaseUser = null;
       this.currentUser = null;
       this.userRole = 0;
+      this.isEmployee = false;
       this.authAction = 'login';
     });
   }
