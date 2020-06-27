@@ -22,8 +22,7 @@ func IsUserEmployee(db *gocb.Cluster, uid *string) vetuser.VetUser {
 	var vetUserData vetuser.VetUser
 	err = results.Row(&vetUserData)
 	if err != nil {
-		panic(err)
+		return vetuser.VetUser{}
 	}
-
 	return vetUserData
 }
