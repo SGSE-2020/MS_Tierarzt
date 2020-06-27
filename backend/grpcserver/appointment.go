@@ -30,8 +30,8 @@ func (s *AppointmentServer) GetAppointment(context.Context, *pb.AppointmentID) (
 func (s *AppointmentServer) GetAppointmentsOfUser(ctx context.Context, userid *pb.UserID) (*pb.AppointmentsOfUser, error) {
 	appointment := pb.Appointment{
 		Uid: userid.Uid,
-		Date: "01.01.2020",
-		Duration: 90,
+		Start: "01.01.2020 15:00:00",
+		End: "01.01.2020 17:00:00",
 		}
 	var appointments []*pb.Appointment
 
