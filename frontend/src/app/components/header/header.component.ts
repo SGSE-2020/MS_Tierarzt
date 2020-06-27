@@ -70,6 +70,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       result.user.getIdToken(true).then((token) => {
         this.httpClient.post(this.constants.host + '/user', {token}).subscribe(() => {
           this.constants.firebaseUser = result.user;
+          this.constants.currentUser = result.user;
           localStorage.setItem('user', JSON.stringify(this.constants.firebaseUser));
           this.displayname = this.constants.firebaseUser.displayname;
           this.createVetUser();
@@ -90,6 +91,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       this.constants.isEmployee = this.employee.isEmployee;
     }
     else {
+      const user = JSON.parse(localStorage.getItem('user'));
+      console.log('Got firebase uid ' + this.constants.firebaseUser.uid);
+      console.log('Got currentuser uid ' + this.constants.currentUser.uid);
+      console.log('Got user uid ' + user.uid);
       this.httpClient.post('api/vetuser', {
         Uid: this.constants.firebaseUser.uid,
         FirstName: this.constants.firebaseUser.firstName,
