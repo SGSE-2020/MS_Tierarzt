@@ -2,10 +2,11 @@ package operations
 
 import (
 	"github.com/couchbase/gocb/v2"
+	"tierarzt/proto/vetuser"
 )
 
-func IsUserEmployee(db *gocb.Cluster, uid *string) bool {
-	query := "SELECT v.isEmployee FROM `vetservice` as v " +
+func IsUserEmployee(db *gocb.Cluster, uid *string) vetuser.VetUser {
+	query := "SELECT v.* FROM `vetservice` as v " +
 		"WHERE v.`isEmployee` IS NOT NULL " +
 		"AND v.`uid` == $uid;"
 	params := make(map[string]interface{}, 2)
@@ -17,5 +18,8 @@ func IsUserEmployee(db *gocb.Cluster, uid *string) bool {
 		panic(err)
 	}
 
-	return results.Next()
+	var vetUserData vetuser.VetUser
+	results.Row(&vetUserData)
+
+	return vetUserData
 }

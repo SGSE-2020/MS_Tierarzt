@@ -28,7 +28,7 @@ func main() {
 		api.GET("/user/:userid", handler.GetUserData())
 		api.GET("/vetuser", handler.VetUserGet(db))
 		api.POST("/vetuser", handler.VetUserPost(db))
-		api.GET("/vetuser/:userid", handler.VetUserCheck(db))
+		api.GET("/vetuser/:userid", handler.GetVetUser(db))
 		api.PUT("/vetuser/:userid", handler.UpdateVetUser(db))
 		api.DELETE("/vetuser/:userid", handler.VetUserDelete(db))
 		api.POST("/appointment", handler.AppointmentPost(db))

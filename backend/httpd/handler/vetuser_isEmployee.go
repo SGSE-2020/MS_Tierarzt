@@ -7,12 +7,10 @@ import (
 	"tierarzt/couchbase/operations"
 )
 
-func VetUserCheck(db *gocb.Cluster) gin.HandlerFunc {
+func GetVetUser(db *gocb.Cluster) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userid := c.Param("userid")
 
-		c.JSON(http.StatusAccepted, map[string]bool{
-			"isEmployee": operations.IsUserEmployee(db, &userid),
-		})
+		c.JSON(http.StatusAccepted, operations.IsUserEmployee(db, &userid))
 	}
 }

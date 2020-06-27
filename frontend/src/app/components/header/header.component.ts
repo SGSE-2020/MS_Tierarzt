@@ -7,6 +7,10 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 interface IEmployee {
+  uid: string;
+  firstName: string;
+  lastName: string;
+  gender: number;
   isEmployee: boolean;
 }
 
@@ -77,6 +81,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   async createVetUser() {
     console.log('Sending request to api');
     this.employee = await this.httpClient.get<IEmployee>('api/vetuser/' + this.constants.firebaseUser.uid).toPromise();
+    console.log('Got employee uid ' + this.employee.uid);
+    console.log('Got employee firstname ' + this.employee.firstName);
+    console.log('Got employee lastname ' + this.employee.lastName);
+    console.log('Got employee gender ' + this.employee.gender);
     console.log('Got employee value ' + this.employee.isEmployee);
     if (this.employee.isEmployee != null){
       this.constants.isEmployee = this.employee.isEmployee;
