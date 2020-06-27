@@ -33,40 +33,12 @@
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
 
-<button mat-raised-button color="accent" (click)="openAnimalDialog(emptyAnimalData, true)" id="add_animal_button">Tierdaten hinzufügen</button>
-
-<!--<div style="text-align: center;">
-  <div>
-    <mat-form-field color="accent">
-      <mat-label>Name</mat-label>
-      <input matInput type="text" [(ngModel)]="name">
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field color="accent">
-      <mat-label>Art</mat-label>
-      <input matInput type="text" [(ngModel)]="type">
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field color="accent">
-      <mat-label>Rasse</mat-label>
-      <input matInput type="text" [(ngModel)]="race">
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field color="accent" >
-      <mat-label>Größe (in cm)</mat-label>
-      <input matInput type="number" [(ngModel)]="height">
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field color="accent">
-      <mat-label>Gewicht (in kg)</mat-label>
-      <input matInput type="number" [(ngModel)]="weight">
-    </mat-form-field>
-  </div>
-  <div>
-    <button mat-raised-button color="accent" (click)="addAnimalData()" id="add_animal_button">Tierdaten hinzufügen</button>
-  </div>
-</div>-->
+<button mat-raised-button color="accent" (click)="openAnimalDialog({
+    uid: '',
+    animalid: '',
+    animalname: '',
+    animaltype: '',
+    animalrace: '',
+    animalheight: 0,
+    animalweight: 0
+  }, true)" id="add_animal_button">Tierdaten hinzufügen</button>

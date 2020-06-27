@@ -65,14 +65,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.firebaseAuth.signInWithEmailAndPassword(this.email, this.password).then((result) => {
       result.user.getIdToken(true).then((token) => {
         this.httpClient.post(this.constants.host + '/user', {token}).subscribe(() => {
-          // if (val.status === 'success') {
-            console.log('Login Success');
-            this.constants.firebaseUser = result.user;
-            console.log('Firebaseuser set');
-            this.displayname = this.constants.firebaseUser.displayname;
-            console.log('Firebaseuser set');
-            this.createVetUser();
-          // }
+          this.constants.firebaseUser = result.user;
+          localStorage.setItem('user', JSON.stringify(this.constants.firebaseUser));
+          this.displayname = this.constants.firebaseUser.displayname;
+          this.createVetUser();
         });
       });
     });
@@ -80,15 +76,20 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   async createVetUser() {
     console.log('Sending request to api');
-    this.httpClient.post('api/vetuser', {
-      Uid: this.constants.firebaseUser.uid,
-      FirstName: this.constants.firebaseUser.firstName,
-      LastName: this.constants.firebaseUser.lastName,
-      Gender: this.constants.firebaseUser.gender,
-      IsEmployee: true,
-    });
     this.employee = await this.httpClient.get<IEmployee>('api/vetuser/' + this.constants.firebaseUser.uid).toPromise();
-    this.constants.isEmployee = this.employee.isEmployee;
+    console.log('Got employee value ' + this.employee.isEmployee);
+    if (this.employee.isEmployee != null){
+      this.constants.isEmployee = this.employee.isEmployee;
+    }
+    else {
+      this.httpClient.post('api/vetuser', {
+        Uid: this.constants.firebaseUser.uid,
+        FirstName: this.constants.firebaseUser.firstName,
+        LastName: this.constants.firebaseUser.lastName,
+        Gender: this.constants.firebaseUser.gender,
+        IsEmployee: false
+      }).toPromise();
+    }
   }
 
   performLogout()
