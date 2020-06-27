@@ -49,7 +49,7 @@ export class VetuserDialogComponent{
   }
 
   async deleteVetUserData(){
-    await this.httpClient.delete('/api/vetuser/' + this.data.firstName).toPromise();
+    await this.httpClient.delete('/api/vetuser/' + this.data.uid).toPromise();
     this.dialogRef.close();
   }
 

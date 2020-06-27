@@ -6,10 +6,10 @@ import (
 )
 
 func GetAllAnimals(db *gocb.Cluster) []animal.AnimalData {
-	query := "SELECT v.* FROM `vetservice` as v WHERE v.`animalname` IS NOT NULL;"
+	query := "SELECT v.* " +
+		"FROM `vetservice` as v " +
+		"WHERE v.`animalname` IS NOT NULL;"
 	params := make(map[string]interface{}, 2)
-	params["animalname"] = "animalname"
-	params["animaltype"] = "animaltype"
 
 	results, err := db.Query(query,
 		&gocb.QueryOptions{NamedParameters: params})

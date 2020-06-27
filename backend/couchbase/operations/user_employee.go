@@ -18,8 +18,12 @@ func IsUserEmployee(db *gocb.Cluster, uid *string) vetuser.VetUser {
 		panic(err)
 	}
 
+	results.Next()
 	var vetUserData vetuser.VetUser
-	results.Row(&vetUserData)
+	err = results.Row(&vetUserData)
+	if err != nil {
+		panic(err)
+	}
 
 	return vetUserData
 }

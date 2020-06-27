@@ -7,7 +7,7 @@ import (
 func DeleteUser(db *gocb.Cluster, uid *string) error {
 	query := "DELETE FROM `vetservice` as v " +
 		"WHERE v.`isEmployee` IS NOT NULL " +
-		"AND v.`firstName` == $uid " +
+		"AND v.`uid` == $uid " +
 		"RETURNING v.`uid`;"
 	params := make(map[string]interface{}, 2)
 	params["uid"] = uid
