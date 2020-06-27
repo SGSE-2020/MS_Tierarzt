@@ -64,14 +64,15 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     console.log('In login');
     this.firebaseAuth.signInWithEmailAndPassword(this.email, this.password).then((result) => {
       result.user.getIdToken(true).then((token) => {
-        this.httpClient.post(this.constants.host + '/user', {token}).subscribe((val: any) => {
-          if (val.status === 'success') {
+        this.httpClient.post(this.constants.host + '/user', {token}).subscribe(() => {
+          // if (val.status === 'success') {
+            console.log('Login Success');
             this.constants.firebaseUser = result.user;
-            console.log(this.constants.firebaseUser.toString());
+            console.log('Firebaseuser set');
             this.displayname = this.constants.firebaseUser.displayname;
-            this.constants.isEmployee = this.employee.isEmployee;
+            console.log('Firebaseuser set');
             this.createVetUser();
-          }
+          // }
         });
       });
     });
@@ -96,6 +97,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.email = '';
     this.password = '';
     this.displayname = '';
+    window.location.href = 'http://tierarzt.dvess.network/home';
   }
 
   backToPortal(){

@@ -1,7 +1,51 @@
 <h1 mat-dialog-title>Termin Informationen</h1>
+<div>
+  <mat-form-field color="accent">
+    <mat-label>Termingrund</mat-label>
+    <input matInput type="text" [(ngModel)]="appointmentData.reason">
+  </mat-form-field>
+</div>
+<div>
+  <mat-form-field color="accent">
+    <mat-label>Datum</mat-label>
+    <input matInput type="date" [(ngModel)]="appointmentData.date">
+  </mat-form-field>
+</div>
+<div>
+  <mat-form-field color="accent">
+    <mat-label>Beginn</mat-label>
+    <input matInput type="time" [(ngModel)]="appointmentData.starttime">
+  </mat-form-field>
+</div>
+<div>
+  <mat-form-field color="accent" >
+    <mat-label>Ende</mat-label>
+    <input matInput type="time" [(ngModel)]="appointmentData.endtime">
+  </mat-form-field>
+</div>
+<div>
+  <mat-form-field color="accent">
+    <mat-label>Tiername</mat-label>
+    <input matInput type="number" [(ngModel)]="appointmentData.animalname">
+  </mat-form-field>
+</div>
+<br>
+<br>
+<div *ngIf="isCreateDialog">
+  <button mat-raised-button color="accent" (click)="closeDialog()">Abbrechen</button>
+  <button mat-raised-button color="accent" (click)="addAppointmentData()" id="add_animal_button">Hinzufügen</button>
+</div>
+
+<div *ngIf="!isCreateDialog">
+  <button mat-raised-button color="accent" (click)="closeDialog()" id="aboart_button">Abbrechen</button>
+  <button mat-raised-button color="accent" (click)="deleteAppointmentData()" id="delete_animal_button">Löschen</button>
+  <button mat-raised-button color="accent" (click)="saveAppointmentData()" id="update_animal_button">Speichern</button>
+</div>
+
+<!--
+<h1 mat-dialog-title>Termin Informationen</h1>
 <div mat-dialog-content>
-  <p>Titel: {{data.title}}</p>
-  <p>Beschreibung: {{data.description}}</p>
+  <p>Termin Grund: {{data.title}}</p>
   <br>
   <p>Start: {{data.start.toLocaleString()}}</p>
   <p>Ende: {{data.end.toLocaleString()}}</p>
@@ -9,3 +53,4 @@
 <div mat-dialog-actions>
   <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
 </div>
+-->

@@ -27,9 +27,15 @@ import {CdkTableModule} from '@angular/cdk/table';
 import { MatTableModule  } from '@angular/material/table';
 import { CalendarDialogComponent } from './components/calendar/calendar-dialog/calendar-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import {MatRadioModule} from '@angular/material/radio';
 
 import { GlobalConstantService } from './services/global-constants.service';
 import {environment} from '../environments/environment';
+import { AnimalDialogComponent } from './components/animal/animal-dialog/animal-dialog.component';
+import { VetuserComponent } from './components/vetuser/vetuser.component';
+import { VetuserDialogComponent } from './components/vetuser/vetuser-dialog/vetuser-dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +46,10 @@ import {environment} from '../environments/environment';
     HomeComponent,
     MessagesComponent,
     CalendarComponent,
-    CalendarDialogComponent
+    CalendarDialogComponent,
+    AnimalDialogComponent,
+    VetuserComponent,
+    VetuserDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -60,6 +69,9 @@ import {environment} from '../environments/environment';
     CdkTableModule,
     MatTableModule,
     MatDialogModule,
+    MatPaginatorModule,
+    MatSelectModule,
+    MatRadioModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,

@@ -1,8 +1,13 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, AfterViewInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import { DOCUMENT } from '@angular/common';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
+import {AnimalDialogComponent} from './animal-dialog/animal-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
-interface IAnimalDataItem {
+export interface IAnimalDataItem {
+  uid: string;
+  animalid: string;
   animalname: string;
   animaltype: string;
   animalrace: string;
@@ -16,44 +21,60 @@ interface IAnimalDataItem {
   styleUrls: ['./animal.component.css']
 })
 
-export class AnimalComponent implements OnInit {
+export class AnimalComponent implements OnInit, AfterViewInit {
   public animaldataItems: IAnimalDataItem[] = [];
   name: string;
   type: string;
   race: string;
   height: number;
   weight: number;
+  public emptyAnimalData: IAnimalDataItem = {
+    uid: '',
+    animalid: '',
+    animalname: '',
+    animaltype: '',
+    animalrace: '',
+    animalheight: 0,
+    animalweight: 0,
+  };
 
   displayedColumns: string[] = ['name', 'type', 'race', 'height', 'weight'];
+  dataSource = new MatTableDataSource<IAnimalDataItem>();
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(@Inject(DOCUMENT) document,
-              private httpClient: HttpClient
+  constructor(private httpClient: HttpClient,
+              public dialog: MatDialog
   ) {
   }
 
-  async ngOnInit() {
-    await this.loadAnimalData();
+  ngOnInit() {
+    this.dataSource.paginator = this.paginator;
+    this.loadAnimalData().then();
+  }
+
+  ngAfterViewInit(): void {
+    this.loadAnimalData().then();
   }
 
   async loadAnimalData() {
     this.animaldataItems = await this.httpClient.get<IAnimalDataItem[]>('/api/animal').toPromise();
+    this.dataSource = new MatTableDataSource<IAnimalDataItem>(this.animaldataItems);
+    this.dataSource.paginator = this.paginator;
   }
 
-  async addAnimalData(){
-    await this.httpClient.post('/api/animal', {
-      animalname: this.name,
-      animaltype: this.type,
-      animalrace: this.race,
-      animalheight: this.height,
-      animalweight: this.weight,
-    }).toPromise();
+  openAnimalDialog($animalData: IAnimalDataItem, isCreate: boolean): void {
+    const dialogRef = this.dialog.open(AnimalDialogComponent, {
+      width: '360px',
+      data: $animalData
+    });
+    dialogRef.componentInstance.isCreateDialog = isCreate;
 
-    this.name = '';
-    this.type = '';
-    this.race = '';
-    this.height = null;
-    this.weight = null;
-
-    await this.loadAnimalData();
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadAnimalData().then();
+    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
+    //   this.animal = result;
+    // });
   }
 }

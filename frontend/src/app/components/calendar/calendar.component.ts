@@ -2,7 +2,10 @@ import {
   Component,
   ChangeDetectionStrategy,
   ViewChild,
-  TemplateRef
+  TemplateRef,
+  AfterViewInit,
+  OnInit,
+  Inject
 } from '@angular/core';
 import {
   startOfDay,
@@ -13,6 +16,8 @@ import {
   isSameDay,
   isSameMonth,
   addHours,
+  addMinutes,
+  addSeconds,
 } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -24,6 +29,8 @@ import {
 } from 'angular-calendar';
 import {CalendarDialogComponent} from './calendar-dialog/calendar-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {HttpClient} from '@angular/common/http';
+import {GlobalConstantService} from '../../services/global-constants.service';
 
 const colors: any = {
   red: {
@@ -41,8 +48,19 @@ const colors: any = {
 };
 
 export interface AppointmentEvent extends CalendarEvent {
-  description?: string;
   animal?: string;
+  cost?: number;
+}
+
+interface AppointmentData {
+  appointmentid: string;
+  uid: string;
+  doctorid: string;
+  start: string;
+  end: string;
+  cost: number;
+  animalid: string;
+  reason: string;
 }
 
 @Component({
@@ -52,12 +70,14 @@ export interface AppointmentEvent extends CalendarEvent {
   styleUrls: ['./calendar.component.css']
 })
 
-export class CalendarComponent {
+export class CalendarComponent implements OnInit, AfterViewInit{
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
+  appointmentData: AppointmentData[];
 
   CalendarView = CalendarView;
+  uid: string;
 
   viewDate: Date = new Date();
 
@@ -66,33 +86,14 @@ export class CalendarComponent {
     event: CalendarEvent;
   };
 
-  actions: CalendarEventAction[] = [
-    // {
-    //   label: '<mat-icon>edit</mat-icon>',
-    //   a11yLabel: 'Edit',
-    //   onClick: ({ event }: { event: CalendarEvent }): void => {
-    //     this.handleEvent('Edited', event);
-    //   },
-    // },
-    // {
-    //   label: '<mat-icon>delete</mat-icon>',
-    //   a11yLabel: 'Delete',
-    //   onClick: ({ event }: { event: CalendarEvent }): void => {
-    //     this.events = this.events.filter((iEvent) => iEvent !== event);
-    //     this.handleEvent('Deleted', event);
-    //   },
-    // },
-  ];
-
   refresh: Subject<any> = new Subject();
 
-  events: AppointmentEvent[] = [
+  events: AppointmentEvent[] = []/* = [
     {
       start: subDays(startOfDay(new Date()), 1),
       end: addDays(new Date(), 1),
       title: 'A 3 day event',
       color: colors.red,
-      actions: this.actions,
       allDay: true,
       resizable: {
         beforeStart: true,
@@ -104,7 +105,6 @@ export class CalendarComponent {
       start: startOfDay(new Date()),
       title: 'An event with no end date',
       color: colors.yellow,
-      actions: this.actions,
     },
     {
       start: subDays(endOfMonth(new Date()), 3),
@@ -118,7 +118,6 @@ export class CalendarComponent {
       end: addHours(new Date(), 2),
       title: 'A draggable and resizable event',
       color: colors.yellow,
-      actions: this.actions,
       resizable: {
         beforeStart: true,
         afterEnd: true,
@@ -130,14 +129,25 @@ export class CalendarComponent {
       end: addHours(new Date(2020, 5, 28, 12, 0, 0, 0), 3),
       title: 'Testevent',
       color: colors.yellow,
-      actions: this.actions,
-      description: 'Moin Spinne!',
     },
-  ];
+  ]*/;
 
   activeDayIsOpen = true;
 
-  constructor(private modal: NgbModal, public dialog: MatDialog) {}
+  constructor(private httpClient: HttpClient,
+              public constants: GlobalConstantService,
+              private modal: NgbModal,
+              public dialog: MatDialog) {
+  }
+
+  ngOnInit(): void {
+    this.loadAppointmentData().then();
+    this.uid = 'asd';
+  }
+
+  ngAfterViewInit(): void {
+    this.loadAppointmentData().then();
+  }
 
   openDialog($event: AppointmentEvent): void {
     const dialogRef = this.dialog.open(CalendarDialogComponent, {
@@ -193,7 +203,6 @@ export class CalendarComponent {
       ...this.events,
       {
         title: 'New event',
-        description: 'Hallo',
         animal: 'Amy',
         start: startOfDay(new Date()),
         end: endOfDay(new Date()),
@@ -212,5 +221,43 @@ export class CalendarComponent {
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
+  }
+
+  async loadAppointmentData(){
+    await this.httpClient.get<AppointmentData[]>('/api/appointment/' + this.uid).subscribe((val: any) => {
+      this.appointmentData = val;
+      for (const appointment of this.appointmentData){
+        const startDate = this.createDateFromString(appointment.start);
+        const endDate = this.createDateFromString(appointment.end);
+
+        this.events = [
+          ...this.events,
+          {
+            title: appointment.reason,
+            animal: appointment.animalid,
+            start: startDate,
+            end: endDate,
+            color: colors.red,
+            cost: appointment.cost,
+          },
+        ];
+      }
+    });
+  }
+
+  createDateFromString(inputstring: string): Date{
+    const datestring = inputstring.split(' ', 2)[0];
+    const timestring = inputstring.split(' ', 2)[1];
+
+    const starthours = timestring.split(':', 3)[0];
+    const startminutes = timestring.split(':', 3)[1];
+    const startseconds = timestring.split(':', 3)[2];
+
+    const date = new Date(datestring);
+    addHours(date, Number(starthours));
+    addMinutes(date, Number(startminutes));
+    addSeconds(date, Number(startseconds));
+
+    return date;
   }
 }

@@ -1,0 +1,27 @@
+.mat-form-field {
+  width: 100%;
+}
+
+#add_button {
+  float: right;
+}
+
+#delete_button {
+  float: inside;
+}
+
+#update_button {
+  float: right;
+}
+
+#aboart_button{
+  margin-right: 10px;
+}
+
+#radiogroup{
+  float: right;
+}
+
+.mat-radio-button{
+  margin-left: 10px;
+}

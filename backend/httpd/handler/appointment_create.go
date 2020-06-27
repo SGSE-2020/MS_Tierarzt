@@ -15,8 +15,8 @@ func AppointmentPost(db *gocb.Cluster) gin.HandlerFunc {
 
 		appointmentData := appointment.AppointmentCreate{
 			Uid: requestBody.Uid,
-			Date: requestBody.Date,
-			Duration: requestBody.Duration,
+			Start: requestBody.Start,
+			End: requestBody.End,
 			Animalid: requestBody.Animalid,
 			Cost: requestBody.Cost,
 			Reason: requestBody.Reason,

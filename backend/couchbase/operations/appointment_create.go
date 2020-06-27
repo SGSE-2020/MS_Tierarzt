@@ -14,8 +14,8 @@ func CreateAppointment(db *gocb.Cluster, appointmentCreate *appointment.Appointm
 	appointmentData := appointment.AppointmentData{
 		Appointmentid: uuid,
 		Uid: appointmentCreate.Uid,
-		Date: appointmentCreate.Date,
-		Duration: appointmentCreate.Duration,
+		Start: appointmentCreate.Start,
+		End: appointmentCreate.End,
 		Animalid: appointmentCreate.Animalid,
 		Cost: appointmentCreate.Cost,
 		Reason: appointmentCreate.Reason,
