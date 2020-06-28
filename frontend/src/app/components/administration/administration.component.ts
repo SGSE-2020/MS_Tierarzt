@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {GlobalConstantService} from '../../services/global-constants.service';
 
 @Component({
   selector: 'app-administration',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdministrationComponent implements OnInit {
 
-  constructor() { }
+  constructor(public constants: GlobalConstantService) { }
 
   ngOnInit(): void {
   }

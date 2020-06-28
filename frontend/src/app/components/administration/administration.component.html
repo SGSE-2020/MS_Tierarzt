@@ -4,7 +4,7 @@
   Haustierdaten
 </button>
 
-<button mat-button color="accent" id="vetusers_button" [routerLink]="['/administration/users']">
+<button mat-button color="accent" id="vetusers_button" [routerLink]="['/administration/users']" *ngIf="this.constants.isEmployee">
   <mat-icon>account_circle</mat-icon>
   Benutzerdaten
 </button>

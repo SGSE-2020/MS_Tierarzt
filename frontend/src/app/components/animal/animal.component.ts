@@ -4,6 +4,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {AnimalDialogComponent} from './animal-dialog/animal-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {GlobalConstantService} from '../../services/global-constants.service';
 
 export interface IAnimalDataItem {
   uid: string;
@@ -28,22 +29,14 @@ export class AnimalComponent implements OnInit, AfterViewInit {
   race: string;
   height: number;
   weight: number;
-  public emptyAnimalData: IAnimalDataItem = {
-    uid: '',
-    animalid: '',
-    animalname: '',
-    animaltype: '',
-    animalrace: '',
-    animalheight: 0,
-    animalweight: 0,
-  };
 
   displayedColumns: string[] = ['name', 'type', 'race', 'height', 'weight'];
   dataSource = new MatTableDataSource<IAnimalDataItem>();
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(private httpClient: HttpClient,
-              public dialog: MatDialog
+              public dialog: MatDialog,
+              public constants: GlobalConstantService
   ) {
   }
 
@@ -57,7 +50,12 @@ export class AnimalComponent implements OnInit, AfterViewInit {
   }
 
   async loadAnimalData() {
-    this.animaldataItems = await this.httpClient.get<IAnimalDataItem[]>('/api/animal').toPromise();
+    if (this.constants.isEmployee) {
+      this.animaldataItems = await this.httpClient.get<IAnimalDataItem[]>('/api/animal').toPromise();
+    } else {
+      this.animaldataItems = await this.httpClient.get<IAnimalDataItem[]>('/api/vetuser/' +
+        this.constants.firebaseUser.uid + '/animal').toPromise();
+    }
     this.dataSource = new MatTableDataSource<IAnimalDataItem>(this.animaldataItems);
     this.dataSource.paginator = this.paginator;
   }

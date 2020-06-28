@@ -2,6 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {IAnimalDataItem} from '../animal.component';
 import {HttpClient} from '@angular/common/http';
+import {GlobalConstantService} from '../../../services/global-constants.service';
 
 @Component({
   selector: 'app-animal-dialog',
@@ -14,12 +15,19 @@ export class AnimalDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<AnimalDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IAnimalDataItem,
-    private httpClient: HttpClient) {
+    private httpClient: HttpClient,
+    public constants: GlobalConstantService) {
   }
 
   async addAnimalData() {
+    let uid: string;
+    if (this.constants.isEmployee){
+      uid = this.data.uid;
+    } else {
+      uid = this.constants.firebaseUser.uid;
+    }
     await this.httpClient.post('/api/animal', {
-      uid: this.data.uid,
+      uid,
       animalname: this.data.animalname,
       animaltype: this.data.animaltype,
       animalrace: this.data.animalrace,

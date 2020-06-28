@@ -1,4 +1,10 @@
 <div>
+  <mat-form-field color="accent" *ngIf="this.constants.isEmployee">
+    <mat-label>Besitzer UID</mat-label>
+    <input matInput type="text" [(ngModel)]="data.uid">
+  </mat-form-field>
+</div>
+<div>
   <mat-form-field color="accent">
     <mat-label>Name</mat-label>
     <input matInput type="text" [(ngModel)]="data.animalname">

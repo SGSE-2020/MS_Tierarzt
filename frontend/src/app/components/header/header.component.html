@@ -22,7 +22,7 @@
         Termine
       </button>
 
-      <button mat-stroked-button color="accent" id="administration_button" *ngIf="this.constants.isEmployee" [routerLink]="['/administration']">
+      <button mat-stroked-button color="accent" id="administration_button" *ngIf="this.constants.firebaseUser!=null" [routerLink]="['/administration']">
         <mat-icon>assignment</mat-icon>
         Verwaltung
       </button>

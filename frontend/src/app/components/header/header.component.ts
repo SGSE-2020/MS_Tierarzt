@@ -8,6 +8,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 interface IVetUser {
+  vid: string;
   uid: string;
   firstName: string;
   lastName: string;
@@ -57,7 +58,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       console.log('Is logged in');
       this.constants.firebaseUser = user;
       console.log('Firebase JSON ' + JSON.stringify(this.constants.firebaseUser));
-      this.displayname = this.constants.firebaseUser.displayName;
+      this.displayname = this.constants.currentUser.firstName + ' ' + this.constants.currentUser.lastName;
      /* console.log('Currentuser JSON ' + JSON.stringify(this.constants.currentUser));
       console.log('User JSON ' + JSON.stringify(user));
       if (this.constants.firebaseUser.uid !== this.constants.currentUser?.uid){
@@ -86,7 +87,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
           localStorage.setItem('user', JSON.stringify(this.constants.firebaseUser));
           console.log('result.user: ' + JSON.stringify(result.user));
           console.log('firebaseUser: ' + JSON.stringify(this.constants.firebaseUser));
-          this.displayname = this.constants.firebaseUser.displayname;
+          this.displayname = this.constants.currentUser.firstName + ' ' + this.constants.currentUser.lastName;
           this.createVetUser();
         });
       });
@@ -96,30 +97,19 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   async createVetUser() {
     console.log('Sending request to api');
     this.vetUser = await this.httpClient.get<IVetUser>('api/vetuser/' + this.constants.firebaseUser.uid).toPromise();
-    console.log('Got employee uid ' + this.vetUser.uid);
-    console.log('Got employee firstname ' + this.vetUser.firstName);
-    console.log('Got employee lastname ' + this.vetUser.lastName);
-    console.log('Got employee gender ' + this.vetUser.gender);
-    console.log('Got employee value ' + this.vetUser.isEmployee);
-    if (this.vetUser.isEmployee != null){
-      this.constants.isEmployee = this.vetUser.isEmployee;
-    }
-    else {
-      const user = JSON.parse(localStorage.getItem('user'));
-      console.log('Got firebase uid ' + this.constants.firebaseUser.uid);
-      console.log('Got firebase firstname ' + this.constants.firebaseUser.firstName);
-      console.log('Got currentuser uid ' + this.constants.currentUser.uid);
-      console.log('Got currentuser firstname ' + this.constants.currentUser.firstName);
-      console.log('Got user uid ' + user.uid);
-      console.log('Got user firstname ' + user.firstName);
+    console.log('Got vetuser: ' + JSON.stringify(this.vetUser));
+    if (this.vetUser.vid === ''){
       this.httpClient.post('api/vetuser', {
-        Uid: this.constants.firebaseUser.uid,
-        FirstName: this.constants.firebaseUser.firstName,
-        LastName: this.constants.firebaseUser.lastName,
-        Gender: this.constants.firebaseUser.gender,
+        Uid: this.constants.currentUser.uid,
+        FirstName: this.constants.currentUser.firstName,
+        LastName: this.constants.currentUser.lastName,
+        Gender: this.constants.currentUser.gender,
         IsEmployee: false,
         Dept: 0
       }).toPromise();
+    }
+    else {
+      this.constants.isEmployee = this.vetUser.isEmployee;
     }
   }
 
