@@ -6,12 +6,13 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-interface IEmployee {
+interface IVetUser {
   uid: string;
   firstName: string;
   lastName: string;
   gender: number;
   isEmployee: boolean;
+  dept: number;
 }
 
 @Component({
@@ -24,7 +25,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   email: string;
   password: string;
   displayname: string;
-  employee: IEmployee;
+  vetUser: IVetUser;
 
   constructor(@Inject(DOCUMENT) document,
               private httpClient: HttpClient,
@@ -81,14 +82,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   async createVetUser() {
     console.log('Sending request to api');
-    this.employee = await this.httpClient.get<IEmployee>('api/vetuser/' + this.constants.firebaseUser.uid).toPromise();
-    console.log('Got employee uid ' + this.employee.uid);
-    console.log('Got employee firstname ' + this.employee.firstName);
-    console.log('Got employee lastname ' + this.employee.lastName);
-    console.log('Got employee gender ' + this.employee.gender);
-    console.log('Got employee value ' + this.employee.isEmployee);
-    if (this.employee.isEmployee != null){
-      this.constants.isEmployee = this.employee.isEmployee;
+    this.vetUser = await this.httpClient.get<IVetUser>('api/vetuser/' + this.constants.firebaseUser.uid).toPromise();
+    console.log('Got employee uid ' + this.vetUser.uid);
+    console.log('Got employee firstname ' + this.vetUser.firstName);
+    console.log('Got employee lastname ' + this.vetUser.lastName);
+    console.log('Got employee gender ' + this.vetUser.gender);
+    console.log('Got employee value ' + this.vetUser.isEmployee);
+    if (this.vetUser.isEmployee != null){
+      this.constants.isEmployee = this.vetUser.isEmployee;
     }
     else {
       const user = JSON.parse(localStorage.getItem('user'));
@@ -100,7 +101,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         FirstName: this.constants.firebaseUser.firstName,
         LastName: this.constants.firebaseUser.lastName,
         Gender: this.constants.firebaseUser.gender,
-        IsEmployee: false
+        IsEmployee: false,
+        Dept: 0
       }).toPromise();
     }
   }

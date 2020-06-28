@@ -1,0 +1,23 @@
+syntax = "proto3";
+package message;
+
+service MessageService {
+    rpc createMessage(MessageCreate) returns (MessageID) {}
+    rpc getMessage(MessageID) returns (MessageData) {}
+}
+
+message MessageID {
+    string mid = 1;
+}
+
+message MessageCreate {
+    string uid = 1;
+    string messagetext = 2;
+}
+
+message MessageData {
+    string mid = 1;
+    string uid = 2;
+    string messagetext = 3;
+    bool read = 4;
+}

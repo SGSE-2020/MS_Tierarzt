@@ -224,7 +224,7 @@ export class CalendarComponent implements OnInit, AfterViewInit{
   }
 
   async loadAppointmentData(){
-    await this.httpClient.get<AppointmentData[]>('/api/appointment/' + this.uid).subscribe((val: any) => {
+    await this.httpClient.get<AppointmentData[]>('/api/vetuser/' + this.uid + '/appointment').subscribe((val: any) => {
       this.appointmentData = val;
       for (const appointment of this.appointmentData){
         const startDate = this.createDateFromString(appointment.start);

@@ -15,4 +15,5 @@ message VetUser {
     string firstName = 3;
     string lastName = 4;
     bool isEmployee = 5;
+    int32 dept = 6;
 }
