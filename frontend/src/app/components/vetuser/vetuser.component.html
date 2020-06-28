@@ -27,4 +27,9 @@
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
 
-<button mat-raised-button color="accent" (click)="openVetUserDialog(emptyVetUserData, true)" id="add_vetuser_button">Benutzer hinzufügen</button>
+<button mat-raised-button color="accent" (click)="openVetUserDialog({
+    uid: '',
+    gender: 0,
+    firstName: '',
+    lastName: '',
+    isEmployee: 0}, true)" id="add_vetuser_button">Benutzer hinzufügen</button>

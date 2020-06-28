@@ -31,14 +31,6 @@ export class VetuserComponent implements OnInit, AfterViewInit {
   ];
 
   public vetUserdataItems: IVetUserDataItem[] = [];
-  public emptyVetUserData: IVetUserDataItem = {
-    uid: '',
-    // gender: this.genders[0],
-    gender: 0,
-    firstName: '',
-    lastName: '',
-    isEmployee: 0,
-  };
 
   displayedColumns: string[] = ['firstname', 'lastname', 'gender', 'isEmployee'];
   dataSource = new MatTableDataSource<IVetUserDataItem>();

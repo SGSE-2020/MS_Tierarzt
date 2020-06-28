@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import { DOCUMENT } from '@angular/common';
 import {GlobalConstantService} from '../../services/global-constants.service';
 import { AngularFireAuth } from '@angular/fire/auth';
+import {Router} from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -30,7 +31,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   constructor(@Inject(DOCUMENT) document,
               private httpClient: HttpClient,
               public constants: GlobalConstantService,
-              private firebaseAuth: AngularFireAuth) {
+              private firebaseAuth: AngularFireAuth,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -55,6 +57,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       console.log('Is logged in');
       this.constants.firebaseUser = user;
       console.log('Firebase JSON ' + JSON.stringify(this.constants.firebaseUser));
+      this.displayname = this.constants.firebaseUser.displayName;
      /* console.log('Currentuser JSON ' + JSON.stringify(this.constants.currentUser));
       console.log('User JSON ' + JSON.stringify(user));
       if (this.constants.firebaseUser.uid !== this.constants.currentUser?.uid){
@@ -76,9 +79,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     console.log('In login');
     this.firebaseAuth.signInWithEmailAndPassword(this.email, this.password).then((result) => {
       result.user.getIdToken(true).then((token) => {
-        this.httpClient.post(this.constants.host + '/user', {token}).subscribe(() => {
+        this.httpClient.post(this.constants.host + '/user', {token}).subscribe((val) => {
+          console.log('val: ' + JSON.stringify(val));
           this.constants.firebaseUser = result.user;
-          this.constants.currentUser = result.user;
+          this.constants.currentUser = val;
           localStorage.setItem('user', JSON.stringify(this.constants.firebaseUser));
           console.log('result.user: ' + JSON.stringify(result.user));
           console.log('firebaseUser: ' + JSON.stringify(this.constants.firebaseUser));
@@ -125,7 +129,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.email = '';
     this.password = '';
     this.displayname = '';
-    window.location.href = 'http://tierarzt.dvess.network/home';
+    this.router.navigateByUrl('/home');
   }
 
   backToPortal(){
