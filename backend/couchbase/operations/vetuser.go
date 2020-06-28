@@ -6,14 +6,14 @@ import (
 	"tierarzt/proto/vetuser"
 )
 
-func UpdateVetUser(db *gocb.Cluster, vetuserData *vetuser.VetUser) error {
+func UpdateVetUser(db *gocb.Cluster, vetuserData *vetuser.VetUser) vetuser.VetUser {
 	query := "UPDATE `vetservice` as v " +
 		"SET v.`firstName` = $firstName, " +
 		"v.`lastName` = $lastName, " +
 		"v.`gender` = $gender, " +
-		"v.`isEmployee` = $isEmployee " +
+		"v.`isEmployee` = $isEmployee, " +
 		"v.`dept` = $dept " +
-		"WHERE v.`isEmployee` IS NOT NULL " +
+		"WHERE v.`vid` IS NOT NULL " +
 		"AND v.`uid` == $uid " +
 		"RETURNING v.*;"
 	params := make(map[string]interface{}, 2)
@@ -30,47 +30,31 @@ func UpdateVetUser(db *gocb.Cluster, vetuserData *vetuser.VetUser) error {
 		panic(err)
 	}
 
+	results.Next()
 	var updatedData vetuser.VetUser
-
-	return results.Row(updatedData)
+	err = results.Row(&updatedData)
+	if err != nil {
+		return vetuser.VetUser{}
+	}
+	return updatedData
 }
 
 func CreateVetUser(db *gocb.Cluster, vetuserData *vetuser.VetUser) string {
 	bucket := db.Bucket("vetservice")
 	collection := bucket.DefaultCollection()
 
-	query := "SELECT v.* FROM `vetservice` as v " +
-		"WHERE v.`isEmployee` IS NOT NULL " +
-		"AND v.`uid` == $uid;"
-	params := make(map[string]interface{}, 2)
-	params["uid"] = vetuserData.Uid
-
-	results, err := db.Query(query,
-		&gocb.QueryOptions{NamedParameters: params})
+	uuid := couchbase.GetUUID()
+	vetuserData.Vid = uuid
+	_, err := collection.Upsert(uuid, vetuserData, &gocb.UpsertOptions{})
 	if err != nil {
 		panic(err)
 	}
-
-	if results != nil {
-		uuid := couchbase.GetUUID()
-		_, err = collection.Upsert(uuid, vetuserData, &gocb.UpsertOptions{})
-		if err != nil {
-			panic(err)
-		}
-		return vetuserData.Uid
-	} else {
-		var userData vetuser.VetUser
-		err := results.Row(&userData)
-		if err != nil {
-			panic(err)
-		}
-		return userData.Uid
-	}
+	return vetuserData.Vid
 }
 
 func GetVetUser(db *gocb.Cluster, uid *string) vetuser.VetUser {
 	query := "SELECT v.* FROM `vetservice` as v " +
-		"WHERE v.`isEmployee` IS NOT NULL " +
+		"WHERE v.`vid` IS NOT NULL " +
 		"AND v.`uid` == $uid;"
 	params := make(map[string]interface{}, 2)
 	params["uid"] = uid
@@ -92,7 +76,7 @@ func GetVetUser(db *gocb.Cluster, uid *string) vetuser.VetUser {
 
 func DeleteVetUser(db *gocb.Cluster, uid *string) error {
 	query := "DELETE FROM `vetservice` as v " +
-		"WHERE v.`isEmployee` IS NOT NULL " +
+		"WHERE v.`vid` IS NOT NULL " +
 		"AND v.`uid` == $uid " +
 		"RETURNING v.`uid`;"
 	params := make(map[string]interface{}, 2)
@@ -110,7 +94,7 @@ func DeleteVetUser(db *gocb.Cluster, uid *string) error {
 }
 
 func GetAllVetUsers(db *gocb.Cluster) []vetuser.VetUser {
-	query := "SELECT v.* FROM `vetservice` as v WHERE v.`isEmployee` IS NOT NULL;"
+	query := "SELECT v.* FROM `vetservice` as v WHERE v.`vid` IS NOT NULL;"
 	params := make(map[string]interface{}, 2)
 
 	results, err := db.Query(query,

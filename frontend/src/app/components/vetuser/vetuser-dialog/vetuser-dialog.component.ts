@@ -22,11 +22,12 @@ export class VetuserDialogComponent{
     @Inject(MAT_DIALOG_DATA) public data: IVetUserDataItem,
     private httpClient: HttpClient) {
     if (data.isEmployee == null){
-      data.isEmployee = false;
+      data.isEmployee = 0;
     }
   }
 
   async addVetUserData() {
+    console.log('vetuserdata: ' + JSON.stringify(this.data));
     await this.httpClient.post('/api/vetuser', {
       uid: this.data.uid,
       gender: this.data.gender,
@@ -38,6 +39,7 @@ export class VetuserDialogComponent{
   }
 
   async saveVetUserData() {
+    console.log('vetuserdata: ' + JSON.stringify(this.data));
     await this.httpClient.put('/api/vetuser/' + this.data.uid, {
       uid: this.data.uid,
       gender: this.data.gender,

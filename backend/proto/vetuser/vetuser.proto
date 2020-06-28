@@ -6,14 +6,15 @@ service VetUserService {
 }
 
 message VetUserId {
-    string uid = 1;
+    string vid = 1;
 }
 
 message VetUser {
     string uid = 1;
-    int32 gender = 2;  // 0 = Divers - 1 = Male - 2 = Female
-    string firstName = 3;
-    string lastName = 4;
-    bool isEmployee = 5;
-    int32 dept = 6;
+    string vid = 2;
+    int32 gender = 3;  // 0 = Divers - 1 = Male - 2 = Female
+    string firstName = 4;
+    string lastName = 5;
+    int32 isEmployee = 6; // 0 = false, 1 = true
+    int32 dept = 7;
 }

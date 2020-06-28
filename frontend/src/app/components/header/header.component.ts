@@ -54,10 +54,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     if (isLoggedIn){
       console.log('Is logged in');
       this.constants.firebaseUser = user;
-      console.log('Firebase Uid: ' + this.constants.firebaseUser.uid);
-      console.log('Currentuser Uid: ' + this.constants.currentUser.uid);
       console.log('Firebase JSON ' + JSON.stringify(this.constants.firebaseUser));
-      console.log('Currentuser JSON ' + JSON.stringify(this.constants.currentUser));
+     /* console.log('Currentuser JSON ' + JSON.stringify(this.constants.currentUser));
       console.log('User JSON ' + JSON.stringify(user));
       if (this.constants.firebaseUser.uid !== this.constants.currentUser?.uid){
         this.constants.getCurrentUserData().then(() => {
@@ -70,7 +68,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
             console.log(this.constants.userRole);
           }
         });
-      }
+      }*/
     }
   }
 

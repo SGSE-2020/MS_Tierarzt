@@ -24,7 +24,7 @@ func HandleCreateVetUser(db *gocb.Cluster) gin.HandlerFunc {
 		vetuserid := operations.CreateVetUser(db, &vetuserData)
 
 		c.JSON(http.StatusCreated, map[string]string{
-			"uid": vetuserid,
+			"vid": vetuserid,
 		})
 	}
 }
@@ -58,9 +58,9 @@ func HandleUpdateVetUser(db *gocb.Cluster) gin.HandlerFunc {
 			IsEmployee: requestBody.IsEmployee,
 		}
 
-		updatedAnimalData := operations.UpdateVetUser(db, &vetuserData)
+		updatedData := operations.UpdateVetUser(db, &vetuserData)
 
-		c.JSON(http.StatusAccepted, updatedAnimalData)
+		c.JSON(http.StatusAccepted, updatedData)
 	}
 }
 

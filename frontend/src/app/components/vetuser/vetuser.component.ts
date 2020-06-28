@@ -10,7 +10,7 @@ export interface IVetUserDataItem {
   gender: number;
   firstName: string;
   lastName: string;
-  isEmployee: boolean;
+  isEmployee: number;
 }
 
 export interface Gender {
@@ -37,7 +37,7 @@ export class VetuserComponent implements OnInit, AfterViewInit {
     gender: 0,
     firstName: '',
     lastName: '',
-    isEmployee: false,
+    isEmployee: 0,
   };
 
   displayedColumns: string[] = ['firstname', 'lastname', 'gender', 'isEmployee'];
@@ -60,11 +60,13 @@ export class VetuserComponent implements OnInit, AfterViewInit {
 
   async loadVetUserData() {
     this.vetUserdataItems = await this.httpClient.get<IVetUserDataItem[]>('/api/vetuser').toPromise();
+    console.log('all vetuserdata: ' + JSON.stringify(this.vetUserdataItems));
     this.dataSource = new MatTableDataSource<IVetUserDataItem>(this.vetUserdataItems);
     this.dataSource.paginator = this.paginator;
   }
 
   openVetUserDialog($vetuserData: IVetUserDataItem, isCreate: boolean): void {
+    console.log('vetuserdata: ' + JSON.stringify($vetuserData));
     const dialogRef = this.dialog.open(VetuserDialogComponent, {
       width: '360px',
       data: $vetuserData

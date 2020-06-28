@@ -19,7 +19,7 @@
 <div>
   <mat-form-field color="accent">
     <mat-label>Geschlecht</mat-label>
-    <mat-select [(value)]="data.gender">
+    <mat-select [(ngModel)]="data.gender">
       <mat-option *ngFor="let gender of genders" [value]="gender.value">
         {{gender.viewValue}}
       </mat-option>
@@ -30,8 +30,8 @@
 <!--  <mat-checkbox color="accent" [(ngModel)]="data.isEmployee">Ist Mitarbeiter</mat-checkbox>-->
   <mat-label>Ist Mitarbeiter</mat-label>
   <mat-radio-group aria-label="Select an option" id="radiogroup" [(ngModel)]="data.isEmployee">
-    <mat-radio-button [value]=true>Ja</mat-radio-button>
-    <mat-radio-button [value]=false>Nein</mat-radio-button>
+    <mat-radio-button [value]=1>Ja</mat-radio-button>
+    <mat-radio-button [value]=0>Nein</mat-radio-button>
   </mat-radio-group>
 </div>
 <br>
