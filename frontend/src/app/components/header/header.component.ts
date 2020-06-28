@@ -57,8 +57,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     if (isLoggedIn){
       console.log('Is logged in');
       this.constants.firebaseUser = user;
+      const userinfo = JSON.parse(localStorage.getItem('userinfo'));
       console.log('Firebase JSON ' + JSON.stringify(this.constants.firebaseUser));
-      this.displayname = this.constants.currentUser.firstName + ' ' + this.constants.currentUser.lastName;
+      console.log('Userinfo JSON ' + JSON.stringify(userinfo));
+      this.displayname = userinfo.firstName + ' ' + userinfo.lastName;
      /* console.log('Currentuser JSON ' + JSON.stringify(this.constants.currentUser));
       console.log('User JSON ' + JSON.stringify(user));
       if (this.constants.firebaseUser.uid !== this.constants.currentUser?.uid){
@@ -85,6 +87,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
           this.constants.firebaseUser = result.user;
           this.constants.currentUser = val;
           localStorage.setItem('user', JSON.stringify(this.constants.firebaseUser));
+          localStorage.setItem('userinfo', JSON.stringify(val));
           console.log('result.user: ' + JSON.stringify(result.user));
           console.log('firebaseUser: ' + JSON.stringify(this.constants.firebaseUser));
           this.displayname = this.constants.currentUser.firstName + ' ' + this.constants.currentUser.lastName;
@@ -98,7 +101,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     console.log('Sending request to api');
     this.vetUser = await this.httpClient.get<IVetUser>('api/vetuser/' + this.constants.firebaseUser.uid).toPromise();
     console.log('Got vetuser: ' + JSON.stringify(this.vetUser));
-    if (this.vetUser.vid === ''){
+    if (this.vetUser.vid == null){
       this.httpClient.post('api/vetuser', {
         Uid: this.constants.currentUser.uid,
         FirstName: this.constants.currentUser.firstName,
