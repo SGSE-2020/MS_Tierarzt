@@ -50,11 +50,20 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     const user = JSON.parse(localStorage.getItem('user'));
     const isLoggedIn = (user !== null && user.emailVerified !== false) ? true : false;
+    console.log('In AfterInit');
     if (isLoggedIn){
+      console.log('Is logged in');
       this.constants.firebaseUser = user;
+      console.log('Firebase Uid: ' + this.constants.firebaseUser.uid);
+      console.log('Currentuser Uid: ' + this.constants.currentUser.uid);
+      console.log('Firebase JSON ' + JSON.stringify(this.constants.firebaseUser));
+      console.log('Currentuser JSON ' + JSON.stringify(this.constants.currentUser));
+      console.log('User JSON ' + JSON.stringify(user));
       if (this.constants.firebaseUser.uid !== this.constants.currentUser?.uid){
         this.constants.getCurrentUserData().then(() => {
+          console.log('Currentuser After Get: '  + JSON.stringify(this.constants.currentUser));
           if (this.constants.currentUser == null){
+            console.log('Currentuser is null');
             this.constants.performLogout();
           } else {
             this.constants.userRole = this.constants.currentUser.role;
@@ -73,6 +82,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
           this.constants.firebaseUser = result.user;
           this.constants.currentUser = result.user;
           localStorage.setItem('user', JSON.stringify(this.constants.firebaseUser));
+          console.log('result.user: ' + JSON.stringify(result.user));
+          console.log('firebaseUser: ' + JSON.stringify(this.constants.firebaseUser));
           this.displayname = this.constants.firebaseUser.displayname;
           this.createVetUser();
         });
@@ -94,8 +105,11 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     else {
       const user = JSON.parse(localStorage.getItem('user'));
       console.log('Got firebase uid ' + this.constants.firebaseUser.uid);
+      console.log('Got firebase firstname ' + this.constants.firebaseUser.firstName);
       console.log('Got currentuser uid ' + this.constants.currentUser.uid);
+      console.log('Got currentuser firstname ' + this.constants.currentUser.firstName);
       console.log('Got user uid ' + user.uid);
+      console.log('Got user firstname ' + user.firstName);
       this.httpClient.post('api/vetuser', {
         Uid: this.constants.firebaseUser.uid,
         FirstName: this.constants.firebaseUser.firstName,
