@@ -5,7 +5,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"tierarzt/couchbase/operations"
-	"tierarzt/proto/animal"
 	"tierarzt/proto/message"
 )
 
