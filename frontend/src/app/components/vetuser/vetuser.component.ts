@@ -10,7 +10,7 @@ export interface IVetUserDataItem {
   gender: number;
   firstName: string;
   lastName: string;
-  isEmployee: number;
+  isEmployee: boolean;
 }
 
 export interface Gender {

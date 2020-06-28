@@ -3,6 +3,7 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {Gender, IVetUserDataItem, VetuserComponent} from '../vetuser.component';
 import {HttpClient} from '@angular/common/http';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {GlobalConstantService} from '../../../services/global-constants.service';
 
 @Component({
   selector: 'app-vetuser-dialog',
@@ -20,9 +21,10 @@ export class VetuserDialogComponent{
   constructor(
     public dialogRef: MatDialogRef<VetuserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IVetUserDataItem,
-    private httpClient: HttpClient) {
+    private httpClient: HttpClient,
+    public constants: GlobalConstantService) {
     if (data.isEmployee == null){
-      data.isEmployee = 0;
+      data.isEmployee = false;
     }
   }
 
@@ -47,6 +49,12 @@ export class VetuserDialogComponent{
       lastname: this.data.lastName,
       isEmployee: this.data.isEmployee,
     }).toPromise();
+
+    if (this.constants.firebaseUser.uid === this.data.uid)
+    {
+      this.constants.isEmployee = this.data.isEmployee;
+    }
+
     this.dialogRef.close();
   }
 
