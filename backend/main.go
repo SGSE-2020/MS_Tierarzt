@@ -28,6 +28,7 @@ func main() {
 		// Animal
 		api.POST("/animal", handler.HandleCreateAnimal(db))
 		api.GET("/animal", handler.HandleGetAllAnimals(db))
+		api.GET("/animal/:animalid", handler.HandleGetAnimal(db))
 		api.PUT("/animal/:animalid", handler.HandleUpdateAnimal(db))
 		api.DELETE("/animal/:animalid", handler.HandleDeleteAnimal(db))
 
@@ -43,9 +44,10 @@ func main() {
 
 		// Appointments
 		api.POST("/appointment", handler.HandleAppointmentCreate(db))
-		api.POST("/appointment/request", handler.HandleCreateAppointmentRequest(db))
-		api.GET("/appointment/request", handler.HandleGetAppointmentRequests(db))
-		api.DELETE("/appointment/request/:requestid", handler.HandleDeleteAppointmentRequest(db))
+		api.GET("/appointment/:appointmentid", handler.HandleGetAppointment(db))
+		api.POST("/appointmentrequest", handler.HandleCreateAppointmentRequest(db))
+		api.GET("/appointmentrequest", handler.HandleGetAppointmentRequests(db))
+		api.DELETE("/appointmentrequest/:requestid", handler.HandleDeleteAppointmentRequest(db))
 
 		//Messages
 		api.POST("/message", handler.HandleCreateMessage(db))

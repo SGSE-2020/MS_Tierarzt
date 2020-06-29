@@ -37,6 +37,14 @@ func HandleGetAllAnimals(db *gocb.Cluster) gin.HandlerFunc {
 	}
 }
 
+func HandleGetAnimal(db *gocb.Cluster) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		animalid := c.Param("animalid")
+
+		c.JSON(http.StatusOK, operations.GetAnimal(db, &animalid))
+	}
+}
+
 func HandleGetUserAnimals(db *gocb.Cluster) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userid := c.Param("userid")

@@ -51,6 +51,13 @@ func HandleCreateAppointmentRequest(db *gocb.Cluster) gin.HandlerFunc {
 	}
 }
 
+func HandleGetAppointment(db *gocb.Cluster) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		appointmentid := c.Param("appointmentid")
+		c.JSON(http.StatusAccepted, operations.GetAppointment(db, &appointmentid))
+	}
+}
+
 func HandleGetAppointmentRequests(db *gocb.Cluster) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.JSON(http.StatusAccepted, operations.GetAppointmentRequests(db))

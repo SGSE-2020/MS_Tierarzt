@@ -5,7 +5,8 @@ import {
   TemplateRef,
   AfterViewInit,
   OnInit,
-  Inject
+  Inject,
+  NgZone
 } from '@angular/core';
 import {
   startOfDay,
@@ -27,10 +28,15 @@ import {
   CalendarEventTimesChangedEvent,
   CalendarView,
 } from 'angular-calendar';
-import {CalendarDialogComponent} from './calendar-dialog/calendar-dialog.component';
+import {AppointmentInfo, CalendarDialogComponent} from './calendar-dialog/calendar-dialog.component';
+import {RequestDialogComponent} from './request-dialog/request-dialog.component';
+import {AppointmentDialogComponent} from './appointment-dialog/appointment-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {HttpClient} from '@angular/common/http';
 import {GlobalConstantService} from '../../services/global-constants.service';
+import {IAnimalDataItem} from '../animal/animal.component';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
 
 const colors: any = {
   red: {
@@ -50,9 +56,19 @@ const colors: any = {
 export interface AppointmentEvent extends CalendarEvent {
   animal?: string;
   cost?: number;
+  appointmentid: string;
 }
 
-interface AppointmentData {
+export interface AppointmentRequest {
+  requestid: string;
+  uid: string;
+  start: string;
+  end: string;
+  animalid: string;
+  reason: string;
+}
+
+export interface AppointmentData {
   appointmentid: string;
   uid: string;
   doctorid: string;
@@ -73,8 +89,13 @@ interface AppointmentData {
 export class CalendarComponent implements OnInit, AfterViewInit{
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
+  displayedColumns: string[] = ['uid', 'reason', 'animalid', 'start', 'end'];
+  dataSource = new MatTableDataSource<AppointmentRequest>();
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
   view: CalendarView = CalendarView.Month;
   appointmentData: AppointmentData[];
+  appointmentRequests: AppointmentRequest[];
 
   CalendarView = CalendarView;
   uid: string;
@@ -88,77 +109,61 @@ export class CalendarComponent implements OnInit, AfterViewInit{
 
   refresh: Subject<any> = new Subject();
 
-  events: AppointmentEvent[] = []/* = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: colors.red,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: colors.yellow,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue,
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-    {
-      start: new Date(2020, 5, 28, 12, 0, 0, 0),
-      end: addHours(new Date(2020, 5, 28, 12, 0, 0, 0), 3),
-      title: 'Testevent',
-      color: colors.yellow,
-    },
-  ]*/;
+  events: AppointmentEvent[] = [];
 
-  activeDayIsOpen = true;
+  activeDayIsOpen = false;
 
   constructor(private httpClient: HttpClient,
               public constants: GlobalConstantService,
               private modal: NgbModal,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private zone: NgZone) {
   }
 
   ngOnInit(): void {
-    this.loadAppointmentData().then();
-    this.uid = 'asd';
+    // if (this.constants.isEmployee) {
+      this.dataSource.paginator = this.paginator;
+      this.loadAppointmentRequests().then();
+    // }
+      this.loadAppointmentData().then();
   }
 
   ngAfterViewInit(): void {
-    this.loadAppointmentData().then();
+    // if (this.constants.isEmployee) {
+      this.loadAppointmentRequests().then();
+    // }
+      this.loadAppointmentData().then();
   }
 
-  openDialog($event: AppointmentEvent): void {
+  async openCalendarDialog($event: AppointmentEvent){
+    console.log(JSON.stringify($event));
+    const animalData = await this.httpClient.get<IAnimalDataItem>('/api/animal/' + $event.animal).toPromise();
+    const appointmentInfo: AppointmentInfo = {
+      reason: $event.title,
+      date: $event.start,
+      starttime: $event.start.toLocaleTimeString(),
+      endtime: $event.end.toLocaleTimeString(),
+      animalname: animalData.animalname
+    };
     const dialogRef = this.dialog.open(CalendarDialogComponent, {
       width: '250px',
-      data: $event
+      data: appointmentInfo
     });
+  }
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log('The dialog was closed');
-    //   this.animal = result;
-    // });
+  async openRequestDialog() {
+    const userAnimals = await this.httpClient.get<IAnimalDataItem>('/api/vetuser/' + this.uid + '/animal').toPromise();
+    const dialogRef = this.dialog.open(RequestDialogComponent, {
+      width: '250px',
+      data: userAnimals
+    });
+  }
+
+  openAppointmentDialog($request: AppointmentRequest): void {
+    const dialogRef = this.dialog.open(AppointmentDialogComponent, {
+      width: '250px',
+      data: $request
+    });
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -175,44 +180,9 @@ export class CalendarComponent implements OnInit, AfterViewInit{
     }
   }
 
-  eventTimesChanged({
-                      event,
-                      newStart,
-                      newEnd,
-                    }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map((iEvent) => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd,
-        };
-      }
-      return iEvent;
-    });
-    this.handleEvent('Dropped or resized', event);
-  }
-
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
-  }
-
-  addEvent(): void {
-    this.events = [
-      ...this.events,
-      {
-        title: 'New event',
-        animal: 'Amy',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
-      },
-    ];
-  }
-
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
   }
 
   setView(view: CalendarView) {
@@ -224,8 +194,11 @@ export class CalendarComponent implements OnInit, AfterViewInit{
   }
 
   async loadAppointmentData(){
+    // TODO remove when pushing
+    // this.uid = '6TbzcPavrSNdq1W1qAKqyfhhvxB2';
     await this.httpClient.get<AppointmentData[]>('/api/vetuser/' + this.uid + '/appointment').subscribe((val: any) => {
       this.appointmentData = val;
+      this.events = [];
       for (const appointment of this.appointmentData){
         const startDate = this.createDateFromString(appointment.start);
         const endDate = this.createDateFromString(appointment.end);
@@ -233,6 +206,7 @@ export class CalendarComponent implements OnInit, AfterViewInit{
         this.events = [
           ...this.events,
           {
+            appointmentid: appointment.appointmentid,
             title: appointment.reason,
             animal: appointment.animalid,
             start: startDate,
@@ -242,6 +216,17 @@ export class CalendarComponent implements OnInit, AfterViewInit{
           },
         ];
       }
+      this.zone.run(() => {
+        console.log('enabled time travel');
+      });
+    });
+  }
+
+  async loadAppointmentRequests(){
+    await this.httpClient.get<AppointmentData[]>('/api/appointmentrequest').subscribe((val: any) => {
+      this.appointmentRequests = val;
+      this.dataSource = new MatTableDataSource<AppointmentRequest>(this.appointmentRequests);
+      this.dataSource.paginator = this.paginator;
     });
   }
 
@@ -249,15 +234,17 @@ export class CalendarComponent implements OnInit, AfterViewInit{
     const datestring = inputstring.split(' ', 2)[0];
     const timestring = inputstring.split(' ', 2)[1];
 
-    const starthours = timestring.split(':', 3)[0];
-    const startminutes = timestring.split(':', 3)[1];
-    const startseconds = timestring.split(':', 3)[2];
+    const year = Number(datestring.split('-', 3)[0]);
+    const month = Number(datestring.split('-', 3)[1]);
+    const day = Number(datestring.split('-', 3)[2]);
 
-    const date = new Date(datestring);
-    addHours(date, Number(starthours));
-    addMinutes(date, Number(startminutes));
-    addSeconds(date, Number(startseconds));
-
+    const hours = Number(timestring.split(':', 3)[0]);
+    const minutes = Number(timestring.split(':', 3)[1]);
+    const seconds = Number(timestring.split(':', 3)[2]);
+    console.log(datestring);
+    console.log(timestring);
+    const date = new Date(year, month - 1, day, hours, minutes, seconds, 0);
+    console.log(date.toLocaleString());
     return date;
   }
 }

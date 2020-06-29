@@ -36,6 +36,10 @@ import {environment} from '../environments/environment';
 import { AnimalDialogComponent } from './components/animal/animal-dialog/animal-dialog.component';
 import { VetuserComponent } from './components/vetuser/vetuser.component';
 import { VetuserDialogComponent } from './components/vetuser/vetuser-dialog/vetuser-dialog.component';
+import { RequestDialogComponent } from './components/calendar/request-dialog/request-dialog.component';
+import { AppointmentDialogComponent } from './components/calendar/appointment-dialog/appointment-dialog.component';
+import { MessageDialogComponent } from './components/messages/message-dialog/message-dialog.component';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -49,7 +53,10 @@ import { VetuserDialogComponent } from './components/vetuser/vetuser-dialog/vetu
     CalendarDialogComponent,
     AnimalDialogComponent,
     VetuserComponent,
-    VetuserDialogComponent
+    VetuserDialogComponent,
+    RequestDialogComponent,
+    AppointmentDialogComponent,
+    MessageDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -72,6 +79,7 @@ import { VetuserDialogComponent } from './components/vetuser/vetuser-dialog/vetu
     MatPaginatorModule,
     MatSelectModule,
     MatRadioModule,
+    MatListModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,

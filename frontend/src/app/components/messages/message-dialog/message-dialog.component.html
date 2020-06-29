@@ -1,0 +1,14 @@
+<h1 type="text">{{data.messagetitle}}</h1>
+<br>
+<p type="text">{{data.messagetext}}</p>
+<br>
+<div>
+  <mat-label>Nachricht erstellt am: </mat-label>
+  <p type="text">{{data.creationtime}}</p>
+</div>
+<br>
+<br>
+<div>
+  <button mat-raised-button color="accent" (click)="deleteMessage()" id="delete_button">Löschen</button>
+  <button mat-raised-button color="accent" (click)="closeDialog()" id="close_button">Schließen</button>
+</div>

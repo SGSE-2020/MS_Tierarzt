@@ -1,0 +1,40 @@
+<div>
+  <mat-form-field color="accent">
+    <mat-label>Termingrund</mat-label>
+    <textarea matInput type="text" [(ngModel)]="reason"></textarea>
+  </mat-form-field>
+</div>
+<div>
+  <mat-form-field color="accent">
+    <mat-label>Tier</mat-label>
+    <mat-select [(ngModel)]="animalid">
+      <mat-option *ngFor="let animal of data" [value]="animal.animalid">
+        {{animal.animalname}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div>
+  <mat-form-field color="accent">
+    <mat-label>Datum</mat-label>
+    <input matInput type="date" [(ngModel)]="date">
+  </mat-form-field>
+</div>
+<div>
+  <mat-form-field color="accent" >
+    <mat-label>Beginn</mat-label>
+    <input matInput type="time" [(ngModel)]="starttime">
+  </mat-form-field>
+</div>
+<div>
+  <mat-form-field color="accent">
+    <mat-label>Ende</mat-label>
+    <input matInput type="time" [(ngModel)]="endtime">
+  </mat-form-field>
+</div>
+<br>
+<br>
+<div>
+  <button mat-raised-button color="accent" (click)="closeDialog()">Abbrechen</button>
+  <button mat-raised-button color="accent" (click)="addRequest()" id="add_button">Senden</button>
+</div>

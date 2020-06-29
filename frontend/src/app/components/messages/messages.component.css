@@ -1,0 +1,14 @@
+.mat-nav-list{
+  width: 50%;
+  background-color: cornflowerblue;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1{
+  text-align: center;
+}
+
+.mat-icon{
+  margin-right: 10px;
+}

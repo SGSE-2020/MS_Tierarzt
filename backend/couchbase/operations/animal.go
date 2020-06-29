@@ -101,6 +101,28 @@ func GetAllAnimals(db *gocb.Cluster) []animal.AnimalData {
 	return allAnimalData
 }
 
+func GetAnimal(db *gocb.Cluster, animalid *string) animal.AnimalData {
+	query := "SELECT v.* FROM `vetservice` as v " +
+		"WHERE v.`animalid` IS NOT NULL " +
+		"AND v.`animalid` == $animalid;"
+	params := make(map[string]interface{}, 2)
+	params["animalid"] = animalid
+
+	results, err := db.Query(query,
+		&gocb.QueryOptions{NamedParameters: params})
+	if err != nil {
+		panic(err)
+	}
+
+	results.Next()
+	var animalData animal.AnimalData
+	err = results.Row(&animalData)
+	if err != nil {
+		return animal.AnimalData{}
+	}
+	return animalData
+}
+
 func GetUserAnimals(db *gocb.Cluster, uid *string) []animal.AnimalData {
 	query := "SELECT v.* FROM `vetservice` as v " +
 		"WHERE v.`animalname` IS NOT NULL " +

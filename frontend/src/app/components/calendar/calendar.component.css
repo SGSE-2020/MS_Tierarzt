@@ -9,10 +9,26 @@ pre {
 
 mat-toolbar {
   margin: auto;
-  width: 32%;
+  width: 34%;
   padding: 10px;
 }
 
 button{
   margin-right: 10px;
+}
+
+.mat-table {
+  overflow-x: scroll;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+th, td {
+  overflow: hidden;
+  width: 200px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

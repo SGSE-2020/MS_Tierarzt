@@ -12,12 +12,16 @@ message MessageID {
 
 message MessageCreate {
     string uid = 1;
-    string messagetext = 2;
+    string messagetitle = 2;
+    string messagetext = 3;
+    string creationtime = 4;
 }
 
 message MessageData {
     string mid = 1;
     string uid = 2;
-    string messagetext = 3;
-    bool read = 4;
+    string messagetitle = 3;
+    string messagetext = 4;
+    string creationtime = 5;
+    bool read = 6;
 }

@@ -14,7 +14,9 @@ func CreateMessage(db *gocb.Cluster, messageCreate *message.MessageCreate) strin
 	messageData := message.MessageData{
 		Mid: uuid,
 		Uid: messageCreate.Uid,
+		Messagetitle: messageCreate.Messagetitle,
 		Messagetext: messageCreate.Messagetext,
+		Creationtime: messageCreate.Creationtime,
 		Read: false,
 	}
 
@@ -102,7 +104,9 @@ func DeleteMessage(db *gocb.Cluster, mid *string) error {
 func UpdateMessage(db *gocb.Cluster, messageData *message.MessageData) message.MessageData {
 	query := "UPDATE `vetservice` as v " +
 		"SET v.`uid` = $uid, " +
+		"v.`messagetitle` = $messagetitle, " +
 		"v.`messagetext` = $messagetext, " +
+		"v.`creationtime` = $creationtime, " +
 		"v.`read` = $read " +
 		"WHERE v.`mid` IS NOT NULL " +
 		"AND v.`mid` == $mid " +
@@ -110,7 +114,9 @@ func UpdateMessage(db *gocb.Cluster, messageData *message.MessageData) message.M
 	params := make(map[string]interface{}, 2)
 	params["mid"] = messageData.Mid
 	params["uid"] = messageData.Uid
+	params["messagetitle"] = messageData.Messagetitle
 	params["messagetext"] = messageData.Messagetext
+	params["creationtime"] = messageData.Creationtime
 	params["read"] = messageData.Read
 
 	results, err := db.Query(query,

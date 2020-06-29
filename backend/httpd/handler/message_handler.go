@@ -15,7 +15,9 @@ func HandleCreateMessage(db *gocb.Cluster) gin.HandlerFunc {
 
 		messageData := message.MessageCreate{
 			Uid: requestBody.Uid,
+			Messagetitle: requestBody.Messagetitle,
 			Messagetext: requestBody.Messagetext,
+			Creationtime: requestBody.Creationtime,
 		}
 
 		c.JSON(http.StatusCreated, map[string]string{
@@ -50,7 +52,9 @@ func HandleUpdateMessage(db *gocb.Cluster) gin.HandlerFunc {
 		messageData := message.MessageData{
 			Mid: mid,
 			Uid: requestBody.Uid,
+			Messagetitle: requestBody.Messagetitle,
 			Messagetext: requestBody.Messagetext,
+			Creationtime: requestBody.Creationtime,
 			Read: requestBody.Read,
 		}
 

@@ -1,56 +1,31 @@
 <h1 mat-dialog-title>Termin Informationen</h1>
+<br>
 <div>
-  <mat-form-field color="accent">
-    <mat-label>Termingrund</mat-label>
-    <input matInput type="text" [(ngModel)]="appointmentData.reason">
-  </mat-form-field>
+  <mat-label>Termingrund</mat-label>
+  <p type="text">{{data.reason}}</p>
 </div>
+<br>
 <div>
-  <mat-form-field color="accent">
-    <mat-label>Datum</mat-label>
-    <input matInput type="date" [(ngModel)]="appointmentData.date">
-  </mat-form-field>
+  <mat-label>Datum</mat-label>
+  <p type="text">{{data.date.toLocaleDateString()}}</p>
 </div>
+<br>
 <div>
-  <mat-form-field color="accent">
-    <mat-label>Beginn</mat-label>
-    <input matInput type="time" [(ngModel)]="appointmentData.starttime">
-  </mat-form-field>
+  <mat-label>Beginn</mat-label>
+  <p type="text">{{data.starttime}}</p>
 </div>
+<br>
 <div>
-  <mat-form-field color="accent" >
-    <mat-label>Ende</mat-label>
-    <input matInput type="time" [(ngModel)]="appointmentData.endtime">
-  </mat-form-field>
+  <mat-label>Ende</mat-label>
+  <p type="text">{{data.endtime}}</p>
 </div>
+<br>
 <div>
-  <mat-form-field color="accent">
-    <mat-label>Tiername</mat-label>
-    <input matInput type="number" [(ngModel)]="appointmentData.animalname">
-  </mat-form-field>
+  <mat-label>Tiername</mat-label>
+  <p type="text">{{data.animalname}}</p>
 </div>
 <br>
 <br>
-<div *ngIf="isCreateDialog">
-  <button mat-raised-button color="accent" (click)="closeDialog()">Abbrechen</button>
-  <button mat-raised-button color="accent" (click)="addAppointmentData()" id="add_animal_button">Hinzufügen</button>
+<div>
+  <button mat-raised-button color="accent" (click)="closeDialog()">Schließen</button>
 </div>
-
-<div *ngIf="!isCreateDialog">
-  <button mat-raised-button color="accent" (click)="closeDialog()" id="aboart_button">Abbrechen</button>
-  <button mat-raised-button color="accent" (click)="deleteAppointmentData()" id="delete_animal_button">Löschen</button>
-  <button mat-raised-button color="accent" (click)="saveAppointmentData()" id="update_animal_button">Speichern</button>
-</div>
-
-<!--
-<h1 mat-dialog-title>Termin Informationen</h1>
-<div mat-dialog-content>
-  <p>Termin Grund: {{data.title}}</p>
-  <br>
-  <p>Start: {{data.start.toLocaleString()}}</p>
-  <p>Ende: {{data.end.toLocaleString()}}</p>
-</div>
-<div mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
-</div>
--->

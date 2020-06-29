@@ -1,1 +1,8 @@
-<p>Hier werden zukünftig Benachrichtigungen angezeigt!</p>
+<h1>Nachrichtenübersicht</h1>
+<mat-nav-list>
+  <mat-list-item *ngFor="let message of messages" (click)="openMessage(message)">
+    <mat-icon *ngIf="!message.read" color="accent">notifications</mat-icon>
+    <mat-icon *ngIf="message.read" color="accent">check_circle</mat-icon>
+    <a>{{ message.messagetitle }}</a>
+  </mat-list-item>
+</mat-nav-list>

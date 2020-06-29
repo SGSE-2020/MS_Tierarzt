@@ -113,6 +113,28 @@ func GetAppointmentRequests(db *gocb.Cluster) []appointment.AppointmentRequest {
 	return allAppointmentData
 }
 
+func GetAppointment(db *gocb.Cluster, appointmentid *string) appointment.AppointmentData {
+	query := "SELECT v.* FROM `vetservice` as v " +
+		"WHERE v.`appointmentid` IS NOT NULL " +
+		"AND v.`appointmentid` == $appointmentid;"
+	params := make(map[string]interface{}, 2)
+	params["appointmentid"] = appointmentid
+
+	results, err := db.Query(query,
+		&gocb.QueryOptions{NamedParameters: params})
+	if err != nil {
+		panic(err)
+	}
+
+	results.Next()
+	var appointmentData appointment.AppointmentData
+	err = results.Row(&appointmentData)
+	if err != nil {
+		return appointment.AppointmentData{}
+	}
+	return appointmentData
+}
+
 func DeleteAppointmentRequest(db *gocb.Cluster, requestid *string) error {
 	query := "DELETE FROM `vetservice` as v " +
 		"WHERE v.`requestid` == $requestid " +
