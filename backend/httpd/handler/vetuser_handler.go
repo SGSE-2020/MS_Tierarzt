@@ -56,6 +56,7 @@ func HandleUpdateVetUser(db *gocb.Cluster) gin.HandlerFunc {
 			FirstName: requestBody.FirstName,
 			LastName: requestBody.LastName,
 			IsEmployee: requestBody.IsEmployee,
+			Dept: requestBody.Dept,
 		}
 
 		updatedData := operations.UpdateVetUser(db, &vetuserData)

@@ -18,7 +18,6 @@ export class MessageDialogComponent implements OnInit{
 
 
   async ngOnInit() {
-    console.log(JSON.stringify(this.data));
     if (!this.data.read) {
       await this.httpClient.put<MessageData>('/api/message/' + this.data.mid,
         {

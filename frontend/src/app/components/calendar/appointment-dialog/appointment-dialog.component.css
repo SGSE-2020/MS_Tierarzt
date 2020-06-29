@@ -1,0 +1,24 @@
+#request_info{
+  float: left;
+  width: 60%;
+}
+
+#response{
+  float: right;
+  width: 40%;
+}
+
+#cancle_button{
+  float: left;
+  width: 100%;
+}
+
+#add_button{
+  float: left;
+  width: 100%;
+}
+
+#aboart_button{
+  float: left;
+  width: 100%;
+}

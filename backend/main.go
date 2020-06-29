@@ -21,6 +21,9 @@ func main() {
 			c.JSON(http.StatusOK, "content: hello world!")
 		})
 
+		// Bank
+		api.POST("/bank", handler.TransferCost())
+
 		// User
 		api.POST("/user", handler.ValidateUser())
 		api.GET("/user/:userid", handler.GetUserData())

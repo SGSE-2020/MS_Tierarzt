@@ -36,13 +36,12 @@ export class MessagesComponent implements OnInit, AfterViewInit {
   async loadMessageData() {
     // TODO change this before push
     const uid = this.constants.firebaseUser.uid;
-    // uid = '6TbzcPavrSNdq1W1qAKqyfhhvxB2';
+    // const uid = '6TbzcPavrSNdq1W1qAKqyfhhvxB2';
     this.messages = await this.httpClient.get<MessageData[]>('/api/vetuser/' + uid
        + '/message').toPromise();
   }
 
   openMessage($message: MessageData): void {
-    console.log(JSON.stringify($message));
     const dialogRef = this.dialog.open(MessageDialogComponent, {
       width: '360px',
       data: $message

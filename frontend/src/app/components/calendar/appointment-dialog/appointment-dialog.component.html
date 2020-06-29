@@ -1,1 +1,62 @@
-<p>appointment-dialog works!</p>
+<h1 mat-dialog-title>Anfrage Informationen</h1>
+<div id="request_info">
+  <div>
+    <mat-label>Benutzer ID</mat-label>
+    <p type="link" (click)="openVetUserDialog(data.uid)">{{data.uid}}</p>
+  </div>
+  <div>
+    <mat-label>Termingrund</mat-label>
+    <p type="text">{{data.reason}}</p>
+  </div>
+  <div>
+    <mat-label>Terminzeitraum Beginn</mat-label>
+    <p type="text">{{data.start}}</p>
+  </div>
+  <br>
+  <div>
+    <mat-label>Terminzeitraum Ende</mat-label>
+    <p type="text">{{data.end}}</p>
+  </div>
+  <br>
+  <div>
+    <mat-label>Tier ID</mat-label>
+    <p type="link" (click)="openAnimalDialog(data.animalid)">{{data.animalid}}</p>
+  </div>
+  <br>
+</div>
+<div id="response">
+  <div>
+    <mat-form-field color="accent" >
+      <mat-label>Beginn</mat-label>
+      <input matInput type="time" [(ngModel)]="starttime">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field color="accent">
+      <mat-label>Ende</mat-label>
+      <input matInput type="time" [(ngModel)]="endtime">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field color="accent">
+      <mat-label>Kosten</mat-label>
+      <input matInput type="number" [(ngModel)]="cost">
+    </mat-form-field>
+  </div>
+  <br>
+  <br>
+  <div>
+    <button mat-raised-button color="accent" (click)="addAppointment()" id="add_button">Termin Erstellen</button>
+  </div>
+  <br>
+  <br>
+  <div>
+    <button mat-raised-button color="accent" (click)="cancelRequest()" id="cancle_button">Anfrage Ablehnen</button>
+  </div>
+  <br>
+  <br>
+  <div>
+    <button mat-raised-button color="accent" (click)="closeDialog()" id="aboart_button">Abbrechen</button>
+  </div>
+</div>
+

@@ -27,8 +27,6 @@ export class RequestDialogComponent{
 
   async addRequest() {
     let uid: string;
-    console.log(this.date.toLocaleString());
-    console.log(this.starttime);
     const startdate = this.createDateStringFromDateTime(this.date, this.starttime);
     const enddate = this.createDateStringFromDateTime(this.date, this.endtime);
     uid = this.constants.firebaseUser.uid;

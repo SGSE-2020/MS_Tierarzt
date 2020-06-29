@@ -136,7 +136,6 @@ export class CalendarComponent implements OnInit, AfterViewInit{
   }
 
   async openCalendarDialog($event: AppointmentEvent){
-    console.log(JSON.stringify($event));
     const animalData = await this.httpClient.get<IAnimalDataItem>('/api/animal/' + $event.animal).toPromise();
     const appointmentInfo: AppointmentInfo = {
       reason: $event.title,
@@ -161,7 +160,7 @@ export class CalendarComponent implements OnInit, AfterViewInit{
 
   openAppointmentDialog($request: AppointmentRequest): void {
     const dialogRef = this.dialog.open(AppointmentDialogComponent, {
-      width: '250px',
+      width: '500px',
       data: $request
     });
   }
@@ -216,9 +215,6 @@ export class CalendarComponent implements OnInit, AfterViewInit{
           },
         ];
       }
-      this.zone.run(() => {
-        console.log('enabled time travel');
-      });
     });
   }
 
@@ -241,10 +237,7 @@ export class CalendarComponent implements OnInit, AfterViewInit{
     const hours = Number(timestring.split(':', 3)[0]);
     const minutes = Number(timestring.split(':', 3)[1]);
     const seconds = Number(timestring.split(':', 3)[2]);
-    console.log(datestring);
-    console.log(timestring);
     const date = new Date(year, month - 1, day, hours, minutes, seconds, 0);
-    console.log(date.toLocaleString());
     return date;
   }
 }

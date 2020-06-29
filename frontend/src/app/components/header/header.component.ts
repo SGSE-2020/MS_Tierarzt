@@ -53,13 +53,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     const user = JSON.parse(localStorage.getItem('user'));
     const isLoggedIn = (user !== null && user.emailVerified !== false) ? true : false;
-    console.log('In AfterInit');
     if (isLoggedIn){
-      console.log('Is logged in');
       this.constants.firebaseUser = user;
       const userinfo = JSON.parse(localStorage.getItem('userinfo'));
-      console.log('Firebase JSON ' + JSON.stringify(this.constants.firebaseUser));
-      console.log('Userinfo JSON ' + JSON.stringify(userinfo));
       this.displayname = userinfo.firstName + ' ' + userinfo.lastName;
      /* console.log('Currentuser JSON ' + JSON.stringify(this.constants.currentUser));
       console.log('User JSON ' + JSON.stringify(user));
@@ -79,17 +75,13 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   async performLogin() {
-    console.log('In login');
     this.firebaseAuth.signInWithEmailAndPassword(this.email, this.password).then((result) => {
       result.user.getIdToken(true).then((token) => {
         this.httpClient.post(this.constants.host + '/user', {token}).subscribe((val) => {
-          console.log('val: ' + JSON.stringify(val));
           this.constants.firebaseUser = result.user;
           this.constants.currentUser = val;
           localStorage.setItem('user', JSON.stringify(this.constants.firebaseUser));
           localStorage.setItem('userinfo', JSON.stringify(val));
-          console.log('result.user: ' + JSON.stringify(result.user));
-          console.log('firebaseUser: ' + JSON.stringify(this.constants.firebaseUser));
           this.displayname = this.constants.currentUser.firstName + ' ' + this.constants.currentUser.lastName;
           this.createVetUser();
         });
@@ -98,14 +90,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   async createVetUser() {
-    console.log('Sending request to api');
     this.vetUser = await this.httpClient.get<IVetUser>('api/vetuser/' + this.constants.firebaseUser.uid).toPromise();
     const vetuserJson = JSON.stringify(this.vetUser);
-    console.log('Got vetuser: ' + vetuserJson);
     if (!this.vetUser.hasOwnProperty('vid')){
       const userinfo = JSON.parse(localStorage.getItem('userinfo'));
-      console.log('Userinfo JSON ' + JSON.stringify(userinfo));
-      console.log('currentuser JSON ' + JSON.stringify(this.constants.currentUser));
       this.httpClient.post('api/vetuser', {
         Uid: this.constants.currentUser.uid,
         FirstName: this.constants.currentUser.firstName,

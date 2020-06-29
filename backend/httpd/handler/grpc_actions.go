@@ -6,10 +6,12 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"net/http"
+	"tierarzt/proto/account"
 	"tierarzt/proto/user"
 )
 
-var GRPC_HOST = "ms-buergerbuero"
+var GRPC_HOST_CIVIL_OFFICE = "ms-buergerbuero"
+var GRPC_HOST_BANK = "ms-bank"
 var GRPC_PORT = "50051"
 
 var grpc_client *grpc.ClientConn
@@ -20,7 +22,7 @@ func ValidateUser() gin.HandlerFunc {
 
 		c.Bind(&userA)
 
-		if ConnectGRPC() {
+		if ConnectGRPC(GRPC_HOST_CIVIL_OFFICE) {
 			client := user.NewUserServiceClient(grpc_client)
 			ctx := context.Background()
 			verifiedUser, err := client.VerifyUser(ctx, &user.UserToken{Token: userA.Token})
@@ -50,7 +52,7 @@ func GetUserData() gin.HandlerFunc {
 			Uid: userid,
 		}
 
-		if ConnectGRPC() {
+		if ConnectGRPC(GRPC_HOST_CIVIL_OFFICE) {
 			client := user.NewUserServiceClient(grpc_client)
 			ctx := context.Background()
 			userData, err := client.GetUser(ctx, &userId)
@@ -65,9 +67,30 @@ func GetUserData() gin.HandlerFunc {
 	}
 }
 
-func ConnectGRPC() bool {
+func TransferCost() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		transfer := account.Transfer{}
+
+		c.Bind(&transfer)
+
+		if ConnectGRPC(GRPC_HOST_BANK) {
+			client := account.NewAccountServiceClient(grpc_client)
+			ctx := context.Background()
+			transferMessage, err := client.Transfer(ctx, &transfer)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, map[string]string{
+					"Error": "Der gRPC Call GetUser hat nicht geklappt, weil:" + grpc.ErrorDesc(err),
+				})
+			} else {
+				c.JSON(http.StatusOK, transferMessage)
+			}
+		}
+	}
+}
+
+func ConnectGRPC(host string) bool {
 	conn, err := grpc.Dial(
-		GRPC_HOST+":"+GRPC_PORT, grpc.WithInsecure())
+		host+":"+GRPC_PORT, grpc.WithInsecure())
 	if err != nil {
 		fmt.Print(err)
 		return false

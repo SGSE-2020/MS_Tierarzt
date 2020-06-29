@@ -29,7 +29,6 @@ export class VetuserDialogComponent{
   }
 
   async addVetUserData() {
-    console.log('vetuserdata: ' + JSON.stringify(this.data));
     await this.httpClient.post('/api/vetuser', {
       uid: this.data.uid,
       gender: this.data.gender,
@@ -41,7 +40,6 @@ export class VetuserDialogComponent{
   }
 
   async saveVetUserData() {
-    console.log('vetuserdata: ' + JSON.stringify(this.data));
     await this.httpClient.put('/api/vetuser/' + this.data.uid, {
       uid: this.data.uid,
       gender: this.data.gender,
