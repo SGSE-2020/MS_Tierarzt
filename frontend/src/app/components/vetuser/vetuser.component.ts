@@ -5,6 +5,20 @@ import {MatTableDataSource} from '@angular/material/table';
 import {VetuserDialogComponent} from './vetuser-dialog/vetuser-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {GlobalConstantService} from '../../services/global-constants.service';
+import {MessageData} from '../messages/messages.component';
+
+export interface PaymentInfo{
+  uid: string;
+  iban: string;
+  destiban: string;
+  purpose: string;
+  dept: number;
+}
+
+export interface Account{
+  user_id: string;
+  iban: string;
+}
 
 export interface IVetUserDataItem {
   uid: string;
@@ -33,6 +47,7 @@ export class VetuserComponent implements OnInit, AfterViewInit {
   ];
 
   public vetUserdataItems: IVetUserDataItem[] = [];
+  public paymentInfo: PaymentInfo;
 
   displayedColumns: string[] = ['firstname', 'lastname', 'gender', 'isEmployee'];
   dataSource = new MatTableDataSource<IVetUserDataItem>();
@@ -66,6 +81,29 @@ export class VetuserComponent implements OnInit, AfterViewInit {
     });
     dialogRef.componentInstance.isCreateDialog = isCreate;
     dialogRef.componentInstance.isEditable = this.constants.isEmployee;
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadVetUserData().then();
+    });
+  }
+
+  async openPayDialog(){
+    const vetuser = await this.httpClient.get<IVetUserDataItem>('/api/vetuser/' + this.constants.firebaseUser.uid).toPromise();
+    const account = await this.httpClient.get<Account>('/api/bank/' + this.constants.firebaseUser.uid
+      + '/iban').toPromise();
+
+    this.paymentInfo = {
+      uid: this.constants.firebaseUser.uid,
+      iban: account.iban,
+      destiban: 'DE 23 1520 0000 6133 1514 20',
+      purpose: 'Tierarztkosten  von ' + vetuser.firstName + ' ' + vetuser.lastName,
+      dept: vetuser.dept,
+    };
+
+    const dialogRef = this.dialog.open(VetuserDialogComponent, {
+      width: '360px',
+      data: this.paymentInfo
+    });
 
     dialogRef.afterClosed().subscribe(() => {
       this.loadVetUserData().then();

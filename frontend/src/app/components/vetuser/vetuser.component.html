@@ -27,10 +27,14 @@
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
 
+<button mat-raised-button color="accent" (click)="openPayDialog()" id="pay_button">
+  Kosten bezahlen
+</button>
+
 <button mat-raised-button color="accent" (click)="openVetUserDialog({
     uid: '',
     gender: 0,
     firstName: '',
     lastName: '',
     isEmployee: false,
-    dept: 0}, true)" id="add_vetuser_button">Benutzer hinzufügen</button>
+    dept: 0}, true)" id="add_vetuser_button" *ngIf="this.constants.isEmployee">Benutzer hinzufügen</button>

@@ -1,0 +1,15 @@
+<div>
+  <mat-label>IBAN</mat-label>
+  <p>{{data.iban}}</p>
+</div>
+<div>
+  <mat-label>Schulden</mat-label>
+  <p>{{data.dept}}</p>
+</div>
+<br>
+<br>
+<div>
+  <button mat-raised-button color="accent" (click)="closeDialog()">Abbrechen</button>
+  <button mat-raised-button color="accent" (click)="payDept()" id="pay_button">Bezahlen</button>
+</div>
+

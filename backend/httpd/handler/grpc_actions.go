@@ -88,6 +88,29 @@ func TransferCost() gin.HandlerFunc {
 	}
 }
 
+func GetIban() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		userid := c.Param("userid")
+
+		userData := account.UserId{
+			UserId: userid,
+		}
+
+		if ConnectGRPC(GRPC_HOST_BANK) {
+			client := account.NewAccountServiceClient(grpc_client)
+			ctx := context.Background()
+			accountMessage, err := client.GetIban(ctx, &userData)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, map[string]string{
+					"Error": "Der gRPC Call GetUser hat nicht geklappt, weil:" + grpc.ErrorDesc(err),
+				})
+			} else {
+				c.JSON(http.StatusOK, accountMessage)
+			}
+		}
+	}
+}
+
 func ConnectGRPC(host string) bool {
 	conn, err := grpc.Dial(
 		host+":"+GRPC_PORT, grpc.WithInsecure())

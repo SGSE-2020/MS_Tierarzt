@@ -37,3 +37,8 @@ pre {
 #add_vetuser_button {
   float: right
 }
+
+#pay_button{
+  float: right;
+  margin-right: 10px;
+}

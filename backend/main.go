@@ -27,6 +27,7 @@ func main() {
 
 		// Bank
 		api.POST("/bank", handler.TransferCost())
+		api.GET("/bank/:userid/iban", handler.GetIban())
 
 		// User
 		api.POST("/user", handler.ValidateUser())
