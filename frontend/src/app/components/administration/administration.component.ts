@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {GlobalConstantService} from '../../services/global-constants.service';
-import {VetuserDialogComponent} from '../vetuser/vetuser-dialog/vetuser-dialog.component';
+import {PaymentDialogComponent} from './payment-dialog/payment-dialog.component';
 import {IVetUserDataItem} from '../vetuser/vetuser.component';
 import {HttpClient} from '@angular/common/http';
 import {MatDialog} from '@angular/material/dialog';
@@ -43,10 +43,9 @@ export class AdministrationComponent{
       dept: vetuser.dept,
     };
 
-    const dialogRef = this.dialog.open(VetuserDialogComponent, {
+    const dialogRef = this.dialog.open(PaymentDialogComponent, {
       width: '360px',
       data: this.paymentInfo
     });
   }
-
 }
