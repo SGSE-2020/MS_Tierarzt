@@ -1,8 +1,12 @@
 <div *ngIf="this.isEditable">
   <div>
     <mat-form-field color="accent" *ngIf="this.constants.isEmployee">
-      <mat-label>Besitzer UID</mat-label>
-      <input matInput type="text" [(ngModel)]="data.uid">
+      <mat-label>Besitzer</mat-label>
+      <mat-select [(ngModel)]="data.uid">
+        <mat-option *ngFor="let user of users" [value]="user.uid">
+          {{user.firstname + ' ' + user.lastName}}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
   </div>
   <div>
@@ -51,27 +55,27 @@
 <div *ngIf="!this.isEditable">
   <div>
     <mat-label>Besitzer UID</mat-label>
-    <a>{{data.uid}}</a>
+    <p>{{data.uid}}</p>
   </div>
   <div>
     <mat-label>Name</mat-label>
-    <a>{{data.animalname}}</a>
+    <p>{{data.animalname}}</p>
   </div>
   <div>
     <mat-label>Art</mat-label>
-    <a>{{data.animaltype}}</a>
+    <p>{{data.animaltype}}</p>
   </div>
   <div>
     <mat-label>Rasse</mat-label>
-    <a>{{data.animalrace}}</a>
+    <p>{{data.animalrace}}</p>
   </div>
   <div>
     <mat-label>Größe (in cm)</mat-label>
-    <a>{{data.animalheight}}</a>
+    <p>{{data.animalheight}}</p>
   </div>
   <div>
     <mat-label>Gewicht (in kg)</mat-label>
-    <a>{{data.animalweight}}</a>
+    <p>{{data.animalweight}}</p>
   </div>
   <br>
   <br>

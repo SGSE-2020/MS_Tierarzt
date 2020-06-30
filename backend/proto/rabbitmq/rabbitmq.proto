@@ -1,0 +1,15 @@
+syntax = "proto3";
+package rabbitmq;
+
+service RabbitMqService {
+    rpc getRabbitMq(RabbitMQId) returns (RabbitMQData) {}
+}
+
+message RabbitMQId {
+    string rabbitid = 1;
+}
+
+message RabbitMQData {
+    string rabbitid = 1;
+    string body = 2;
+}

@@ -21,6 +21,7 @@ COPY . .
 #RUN go build -o main .
 RUN go build main.go
 RUN go build grpc.go
+RUN go build rabbitmq.go
 
 # Move to /dist directory as the place for resulting binary folder
 RUN mkdir /dist

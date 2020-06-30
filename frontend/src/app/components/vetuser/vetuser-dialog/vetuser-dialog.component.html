@@ -28,7 +28,6 @@
     </mat-form-field>
   </div>
   <div>
-  <!--  <mat-checkbox color="accent" [(ngModel)]="data.isEmployee">Ist Mitarbeiter</mat-checkbox>-->
     <mat-label>Ist Mitarbeiter</mat-label>
     <mat-radio-group aria-label="Select an option" id="radiogroup" [(ngModel)]="data.isEmployee">
       <mat-radio-button [value]=true>Ja</mat-radio-button>
@@ -51,23 +50,23 @@
 <div *ngIf="!this.isEditable">
   <div>
     <mat-label>Benutzer ID</mat-label>
-    <a>{{data.uid}}</a>
+    <p>{{data.uid}}</p>
   </div>
   <div>
     <mat-label>Vorname</mat-label>
-    <a>{{data.firstName}}</a>
+    <p>{{data.firstName}}</p>
   </div>
   <div>
     <mat-label>Nachname</mat-label>
-    <a>{{data.lastName}}</a>
+    <p>{{data.lastName}}</p>
   </div>
   <div>
     <mat-label>Geschlecht</mat-label>
-    <a>{{genders[data.gender].viewValue}}</a>
+    <p>{{genders[data.gender].viewValue}}</p>
   </div>
   <div>
     <mat-label>Ist Mitarbeiter</mat-label>
-    <a>{{data.isEmployee}}</a>
+    <p>{{data.isEmployee}}</p>
   </div>
   <br>
   <br>

@@ -3,6 +3,7 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {IAnimalDataItem} from '../animal.component';
 import {HttpClient} from '@angular/common/http';
 import {GlobalConstantService} from '../../../services/global-constants.service';
+import {IVetUserDataItem} from '../../vetuser/vetuser.component';
 
 @Component({
   selector: 'app-animal-dialog',
@@ -12,6 +13,7 @@ import {GlobalConstantService} from '../../../services/global-constants.service'
 export class AnimalDialogComponent {
   isCreateDialog: boolean;
   isEditable: boolean;
+  users: IVetUserDataItem[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<AnimalDialogComponent>,

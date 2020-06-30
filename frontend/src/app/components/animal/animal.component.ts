@@ -5,6 +5,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {AnimalDialogComponent} from './animal-dialog/animal-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {GlobalConstantService} from '../../services/global-constants.service';
+import {IVetUserDataItem} from '../vetuser/vetuser.component';
 
 export interface IAnimalDataItem {
   uid: string;
@@ -60,13 +61,15 @@ export class AnimalComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  openAnimalDialog($animalData: IAnimalDataItem, isCreate: boolean): void {
+  async openAnimalDialog($animalData: IAnimalDataItem, isCreate: boolean){
+    const vetUser = await this.httpClient.get<IVetUserDataItem[]>('/api/vetuser/').toPromise();
     const dialogRef = this.dialog.open(AnimalDialogComponent, {
       width: '360px',
       data: $animalData
     });
     dialogRef.componentInstance.isCreateDialog = isCreate;
     dialogRef.componentInstance.isEditable = true;
+    dialogRef.componentInstance.users = vetUser;
     dialogRef.afterClosed().subscribe(() => {
       this.loadAnimalData().then();
     });

@@ -16,6 +16,10 @@ func main() {
 
 	api := r.Group("/")
 	{
+		// RabbitMQ
+		api.POST("/rabbitmq", handler.HandleCreateRabbitMessage(db))
+		api.GET("/rabbitmq", handler.HandleGetRabbitMq(db))
+
 		// Testcall
 		api.GET("/hello", func(c *gin.Context) {
 			c.JSON(http.StatusOK, "content: hello world!")
