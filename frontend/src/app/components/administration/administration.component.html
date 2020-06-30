@@ -9,7 +9,7 @@
     Benutzerdaten
   </button>
 
-  <button mat-button color="accent" (click)="openPayDialog()" id="pay_button">
+  <button mat-button color="accent" (click)="openPayDialog()" id="pay_button" *ngIf="this.vetuserData.dept != null || this.vetuserData.dept > 0">
     <mat-icon>payment</mat-icon>
     Kosten bezahlen
   </button>
