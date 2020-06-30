@@ -56,8 +56,17 @@ export class AppointmentDialogComponent implements OnInit {
 
     const currentuserdata = await this.httpClient.get<IVetUserDataItem>('/api/vetuser/' + this.data.uid).toPromise();
 
+    let dept;
+    if (currentuserdata.dept == null || currentuserdata.dept === 0){
+      dept = this.cost;
+    }
+    else
+    {
+      dept = currentuserdata.dept + this.cost;
+    }
+
     await this.httpClient.put('/api/vetuser/' + this.data.uid, {
-      dept: currentuserdata.dept + this.cost,
+      dept,
       gender: currentuserdata.gender,
       firstName: currentuserdata.firstName,
       lastName: currentuserdata.lastName,
