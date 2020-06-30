@@ -91,9 +91,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   async createVetUser() {
     this.vetUser = await this.httpClient.get<IVetUser>('api/vetuser/' + this.constants.firebaseUser.uid).toPromise();
-    const vetuserJson = JSON.stringify(this.vetUser);
-    if (!this.vetUser.hasOwnProperty('vid')){
-      const userinfo = JSON.parse(localStorage.getItem('userinfo'));
+    if (this.vetUser.vid === ''){
       this.httpClient.post('api/vetuser', {
         Uid: this.constants.currentUser.uid,
         FirstName: this.constants.currentUser.firstName,

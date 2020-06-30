@@ -44,7 +44,9 @@ func GetMessage(db *gocb.Cluster, mid *string) message.MessageData {
 	var messageData message.MessageData
 	err = results.Row(&messageData)
 	if err != nil {
-		return message.MessageData{}
+		return message.MessageData{
+			Mid: "",
+		}
 	}
 	return messageData
 }

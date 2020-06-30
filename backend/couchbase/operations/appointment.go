@@ -130,7 +130,9 @@ func GetAppointment(db *gocb.Cluster, appointmentid *string) appointment.Appoint
 	var appointmentData appointment.AppointmentData
 	err = results.Row(&appointmentData)
 	if err != nil {
-		return appointment.AppointmentData{}
+		return appointment.AppointmentData{
+			Appointmentid: "",
+		}
 	}
 	return appointmentData
 }

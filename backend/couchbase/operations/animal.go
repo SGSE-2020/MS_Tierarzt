@@ -118,7 +118,9 @@ func GetAnimal(db *gocb.Cluster, animalid *string) animal.AnimalData {
 	var animalData animal.AnimalData
 	err = results.Row(&animalData)
 	if err != nil {
-		return animal.AnimalData{}
+		return animal.AnimalData{
+			Animalid: "",
+		}
 	}
 	return animalData
 }
