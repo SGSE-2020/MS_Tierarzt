@@ -56,7 +56,7 @@ export class AnimalComponent implements OnInit, AfterViewInit {
       this.animaldataItems = await this.httpClient.get<IAnimalDataItem[]>('/api/vetuser/' +
         this.constants.firebaseUser.uid + '/animal').toPromise();
     }
-    this.dataSource = new MatTableDataSource<IAnimalDataItem>(this.animaldataItems);
+    this.dataSource.data = this.animaldataItems;
     this.dataSource.paginator = this.paginator;
   }
 

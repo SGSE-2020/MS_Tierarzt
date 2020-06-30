@@ -55,7 +55,7 @@ export class VetuserComponent implements OnInit, AfterViewInit {
 
   async loadVetUserData() {
     this.vetUserdataItems = await this.httpClient.get<IVetUserDataItem[]>('/api/vetuser').toPromise();
-    this.dataSource = new MatTableDataSource<IVetUserDataItem>(this.vetUserdataItems);
+    this.dataSource.data = this.vetUserdataItems;
     this.dataSource.paginator = this.paginator;
   }
 

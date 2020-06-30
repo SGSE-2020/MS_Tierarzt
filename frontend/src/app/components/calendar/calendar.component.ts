@@ -1,33 +1,8 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef,
-  AfterViewInit,
-  OnInit,
-  Inject,
-  NgZone
-} from '@angular/core';
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours,
-  addMinutes,
-  addSeconds,
-} from 'date-fns';
-import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
-  CalendarView,
-} from 'angular-calendar';
+import {AfterViewInit, ChangeDetectionStrategy, Component, NgZone, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {isSameDay, isSameMonth} from 'date-fns';
+import {Subject} from 'rxjs';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CalendarEvent, CalendarView} from 'angular-calendar';
 import {AppointmentInfo, CalendarDialogComponent} from './calendar-dialog/calendar-dialog.component';
 import {RequestDialogComponent} from './request-dialog/request-dialog.component';
 import {AppointmentDialogComponent} from './appointment-dialog/appointment-dialog.component';
@@ -121,6 +96,9 @@ export class CalendarComponent implements OnInit, AfterViewInit{
   }
 
   ngOnInit(): void {
+    // TODO remove when pushing
+      this.uid = this.constants.firebaseUser.uid;
+    // this.uid = '6TbzcPavrSNdq1W1qAKqyfhhvxB2';
     // if (this.constants.isEmployee) {
       this.dataSource.paginator = this.paginator;
       this.loadAppointmentRequests().then();
@@ -193,8 +171,6 @@ export class CalendarComponent implements OnInit, AfterViewInit{
   }
 
   async loadAppointmentData(){
-    // TODO remove when pushing
-    // this.uid = '6TbzcPavrSNdq1W1qAKqyfhhvxB2';
     await this.httpClient.get<AppointmentData[]>('/api/vetuser/' + this.uid + '/appointment').subscribe((val: any) => {
       this.appointmentData = val;
       this.events = [];
@@ -216,12 +192,13 @@ export class CalendarComponent implements OnInit, AfterViewInit{
         ];
       }
     });
+    this.setView(this.view);
   }
 
   async loadAppointmentRequests(){
     await this.httpClient.get<AppointmentData[]>('/api/appointmentrequest').subscribe((val: any) => {
       this.appointmentRequests = val;
-      this.dataSource = new MatTableDataSource<AppointmentRequest>(this.appointmentRequests);
+      this.dataSource.data = this.appointmentRequests;
       this.dataSource.paginator = this.paginator;
     });
   }
@@ -237,7 +214,6 @@ export class CalendarComponent implements OnInit, AfterViewInit{
     const hours = Number(timestring.split(':', 3)[0]);
     const minutes = Number(timestring.split(':', 3)[1]);
     const seconds = Number(timestring.split(':', 3)[2]);
-    const date = new Date(year, month - 1, day, hours, minutes, seconds, 0);
-    return date;
+    return new Date(year, month - 1, day, hours, minutes, seconds, 0);
   }
 }
