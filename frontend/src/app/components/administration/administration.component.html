@@ -1,10 +1,16 @@
+<div id="button_group">
+  <button mat-button color="accent" [routerLink]="['/administration/animals']">
+    <mat-icon>pets</mat-icon>
+    Haustierdaten
+  </button>
 
-<button mat-button color="accent" id="animals_button" [routerLink]="['/administration/animals']">
-  <mat-icon>pets</mat-icon>
-  Haustierdaten
-</button>
+  <button mat-button color="accent" [routerLink]="['/administration/users']" *ngIf="this.constants.isEmployee">
+    <mat-icon>account_circle</mat-icon>
+    Benutzerdaten
+  </button>
 
-<button mat-button color="accent" id="vetusers_button" [routerLink]="['/administration/users']" *ngIf="this.constants.isEmployee">
-  <mat-icon>account_circle</mat-icon>
-  Benutzerdaten
-</button>
+  <button mat-button color="accent" (click)="openPayDialog()" id="pay_button">
+    <mat-icon>payment</mat-icon>
+    Kosten bezahlen
+  </button>
+</div>

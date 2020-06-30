@@ -1,16 +1,52 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {GlobalConstantService} from '../../services/global-constants.service';
+import {VetuserDialogComponent} from '../vetuser/vetuser-dialog/vetuser-dialog.component';
+import {IVetUserDataItem} from '../vetuser/vetuser.component';
+import {HttpClient} from '@angular/common/http';
+import {MatDialog} from '@angular/material/dialog';
+
+export interface PaymentInfo{
+  uid: string;
+  iban: string;
+  destiban: string;
+  purpose: string;
+  dept: number;
+}
+
+export interface Account{
+  user_id: string;
+  iban: string;
+}
 
 @Component({
   selector: 'app-administration',
   templateUrl: './administration.component.html',
   styleUrls: ['./administration.component.css']
 })
-export class AdministrationComponent implements OnInit {
+export class AdministrationComponent{
 
-  constructor(public constants: GlobalConstantService) { }
+  public paymentInfo: PaymentInfo;
+  constructor(private httpClient: HttpClient,
+              public dialog: MatDialog,
+              public constants: GlobalConstantService) { }
 
-  ngOnInit(): void {
+  async openPayDialog(){
+    const vetuser = await this.httpClient.get<IVetUserDataItem>('/api/vetuser/' + this.constants.firebaseUser.uid).toPromise();
+    const account = await this.httpClient.get<Account>('/api/bank/' + this.constants.firebaseUser.uid
+      + '/iban').toPromise();
+
+    this.paymentInfo = {
+      uid: this.constants.firebaseUser.uid,
+      iban: account.iban,
+      destiban: 'DE 23 1520 0000 6133 1514 20',
+      purpose: 'Tierarztkosten  von ' + vetuser.firstName + ' ' + vetuser.lastName,
+      dept: vetuser.dept,
+    };
+
+    const dialogRef = this.dialog.open(VetuserDialogComponent, {
+      width: '360px',
+      data: this.paymentInfo
+    });
   }
 
 }

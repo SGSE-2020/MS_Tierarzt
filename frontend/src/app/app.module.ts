@@ -40,7 +40,7 @@ import { RequestDialogComponent } from './components/calendar/request-dialog/req
 import { AppointmentDialogComponent } from './components/calendar/appointment-dialog/appointment-dialog.component';
 import { MessageDialogComponent } from './components/messages/message-dialog/message-dialog.component';
 import {MatListModule} from '@angular/material/list';
-import { PaymentDialogComponent } from './components/vetuser/payment-dialog/payment-dialog.component';
+import { PaymentDialogComponent } from './components/administration/payment-dialog/payment-dialog.component';
 
 @NgModule({
   declarations: [

@@ -1,8 +1,8 @@
 import {Component, Inject} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {PaymentInfo} from '../vetuser.component';
 import {HttpClient} from '@angular/common/http';
 import {GlobalConstantService} from '../../../services/global-constants.service';
+import {PaymentInfo} from '../administration.component';
 
 @Component({
   selector: 'app-payment-dialog',
