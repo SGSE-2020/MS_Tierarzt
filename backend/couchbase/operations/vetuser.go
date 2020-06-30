@@ -70,7 +70,7 @@ func GetVetUser(db *gocb.Cluster, uid *string) vetuser.VetUser {
 	err = results.Row(&vetUserData)
 	if err != nil {
 		return vetuser.VetUser{
-			Vid: "",
+			Vid: "empty",
 		}
 	}
 	return vetUserData

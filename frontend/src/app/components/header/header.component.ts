@@ -91,7 +91,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   async createVetUser() {
     this.vetUser = await this.httpClient.get<IVetUser>('api/vetuser/' + this.constants.firebaseUser.uid).toPromise();
-    if (this.vetUser.vid === ''){
+    if (this.vetUser.vid === 'empty'){
       this.httpClient.post('api/vetuser', {
         Uid: this.constants.currentUser.uid,
         FirstName: this.constants.currentUser.firstName,
