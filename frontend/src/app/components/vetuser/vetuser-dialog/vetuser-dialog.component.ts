@@ -17,6 +17,7 @@ export class VetuserDialogComponent{
     {value: 2, viewValue: 'Weiblich'}
   ];
   isCreateDialog: boolean;
+  isEditable: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<VetuserDialogComponent>,

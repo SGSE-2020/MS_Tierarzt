@@ -4,6 +4,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {VetuserDialogComponent} from './vetuser-dialog/vetuser-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {GlobalConstantService} from '../../services/global-constants.service';
 
 export interface IVetUserDataItem {
   uid: string;
@@ -38,7 +39,8 @@ export class VetuserComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(private httpClient: HttpClient,
-              public dialog: MatDialog
+              public dialog: MatDialog,
+              public constants: GlobalConstantService
   ) {
   }
 
@@ -63,6 +65,7 @@ export class VetuserComponent implements OnInit, AfterViewInit {
       data: $vetuserData
     });
     dialogRef.componentInstance.isCreateDialog = isCreate;
+    dialogRef.componentInstance.isEditable = this.constants.isEmployee;
 
     dialogRef.afterClosed().subscribe(() => {
       this.loadVetUserData().then();

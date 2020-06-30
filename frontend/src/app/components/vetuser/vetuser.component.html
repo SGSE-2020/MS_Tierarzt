@@ -17,7 +17,7 @@
 
     <ng-container matColumnDef="isEmployee">
       <th mat-header-cell *matHeaderCellDef> Ist Mitarbeiter </th>
-      <td mat-cell *matCellDef="let element"> {{element.isEmployee || 0}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.isEmployee || false}} </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

@@ -11,6 +11,7 @@ import {GlobalConstantService} from '../../../services/global-constants.service'
 })
 export class AnimalDialogComponent {
   isCreateDialog: boolean;
+  isEditable: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<AnimalDialogComponent>,

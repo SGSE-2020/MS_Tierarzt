@@ -1,48 +1,77 @@
-<div>
-  <mat-form-field color="accent">
-    <mat-label>Benutzer ID</mat-label>
-    <input matInput type="text" [(ngModel)]="data.uid">
-  </mat-form-field>
-</div>
-<div>
-  <mat-form-field color="accent">
-    <mat-label>Vorname</mat-label>
-    <input matInput type="text" [(ngModel)]="data.firstName">
-  </mat-form-field>
-</div>
-<div>
-  <mat-form-field color="accent">
-    <mat-label>Nachname</mat-label>
-    <input matInput type="text" [(ngModel)]="data.lastName">
-  </mat-form-field>
-</div>
-<div>
-  <mat-form-field color="accent">
-    <mat-label>Geschlecht</mat-label>
-    <mat-select [(ngModel)]="data.gender">
-      <mat-option *ngFor="let gender of genders" [value]="gender.value">
-        {{gender.viewValue}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
-<div>
-<!--  <mat-checkbox color="accent" [(ngModel)]="data.isEmployee">Ist Mitarbeiter</mat-checkbox>-->
-  <mat-label>Ist Mitarbeiter</mat-label>
-  <mat-radio-group aria-label="Select an option" id="radiogroup" [(ngModel)]="data.isEmployee">
-    <mat-radio-button [value]=true>Ja</mat-radio-button>
-    <mat-radio-button [value]=false>Nein</mat-radio-button>
-  </mat-radio-group>
-</div>
-<br>
-<br>
-<div *ngIf="isCreateDialog">
-  <button mat-raised-button color="accent" (click)="closeDialog()">Abbrechen</button>
-  <button mat-raised-button color="accent" (click)="addVetUserData()" id="add_button">Hinzufügen</button>
-</div>
+<div *ngIf="this.isEditable">
+  <div>
+    <mat-form-field color="accent">
+      <mat-label>Benutzer ID</mat-label>
+      <input matInput type="text" [(ngModel)]="data.uid">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field color="accent">
+      <mat-label>Vorname</mat-label>
+      <input matInput type="text" [(ngModel)]="data.firstName">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field color="accent">
+      <mat-label>Nachname</mat-label>
+      <input matInput type="text" [(ngModel)]="data.lastName">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field color="accent">
+      <mat-label>Geschlecht</mat-label>
+      <mat-select [(ngModel)]="data.gender">
+        <mat-option *ngFor="let gender of genders" [value]="gender.value">
+          {{gender.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div>
+  <!--  <mat-checkbox color="accent" [(ngModel)]="data.isEmployee">Ist Mitarbeiter</mat-checkbox>-->
+    <mat-label>Ist Mitarbeiter</mat-label>
+    <mat-radio-group aria-label="Select an option" id="radiogroup" [(ngModel)]="data.isEmployee">
+      <mat-radio-button [value]=true>Ja</mat-radio-button>
+      <mat-radio-button [value]=false>Nein</mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <br>
+  <br>
+  <div *ngIf="isCreateDialog">
+    <button mat-raised-button color="accent" (click)="closeDialog()">Abbrechen</button>
+    <button mat-raised-button color="accent" (click)="addVetUserData()" id="add_button">Hinzufügen</button>
+  </div>
 
-<div *ngIf="!isCreateDialog">
-  <button mat-raised-button color="accent" (click)="closeDialog()" id="aboart_button">Abbrechen</button>
-  <button mat-raised-button color="accent" (click)="deleteVetUserData()" id="delete_button">Löschen</button>
-  <button mat-raised-button color="accent" (click)="saveVetUserData()" id="update_button">Speichern</button>
+  <div *ngIf="!isCreateDialog">
+    <button mat-raised-button color="accent" (click)="closeDialog()" id="aboart_button">Abbrechen</button>
+    <button mat-raised-button color="accent" (click)="deleteVetUserData()" id="delete_button">Löschen</button>
+    <button mat-raised-button color="accent" (click)="saveVetUserData()" id="update_button">Speichern</button>
+  </div>
+</div>
+<div *ngIf="!this.isEditable">
+  <div>
+    <mat-label>Benutzer ID</mat-label>
+    <a>{{data.uid}}</a>
+  </div>
+  <div>
+    <mat-label>Vorname</mat-label>
+    <a>{{data.firstName}}</a>
+  </div>
+  <div>
+    <mat-label>Nachname</mat-label>
+    <a>{{data.lastName}}</a>
+  </div>
+  <div>
+    <mat-label>Geschlecht</mat-label>
+    <a>{{genders[data.gender].viewValue}}</a>
+  </div>
+  <div>
+    <mat-label>Ist Mitarbeiter</mat-label>
+    <a>{{data.isEmployee}}</a>
+  </div>
+  <br>
+  <br>
+  <div>
+    <button mat-raised-button color="accent" (click)="closeDialog()">Abbrechen</button>
+  </div>
 </div>

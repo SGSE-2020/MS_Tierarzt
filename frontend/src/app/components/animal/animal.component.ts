@@ -66,6 +66,7 @@ export class AnimalComponent implements OnInit, AfterViewInit {
       data: $animalData
     });
     dialogRef.componentInstance.isCreateDialog = isCreate;
+    dialogRef.componentInstance.isEditable = true;
     dialogRef.afterClosed().subscribe(() => {
       this.loadAnimalData().then();
     });

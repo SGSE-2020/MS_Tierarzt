@@ -110,6 +110,7 @@ export class AppointmentDialogComponent implements OnInit {
       data: animalData
     });
     dialogRef.componentInstance.isCreateDialog = false;
+    dialogRef.componentInstance.isEditable = false;
   }
 
   async openVetUserDialog($uid: string){
@@ -120,5 +121,6 @@ export class AppointmentDialogComponent implements OnInit {
       data: vetuserData
     });
     dialogRef.componentInstance.isCreateDialog = false;
+    dialogRef.componentInstance.isEditable = false;
   }
 }

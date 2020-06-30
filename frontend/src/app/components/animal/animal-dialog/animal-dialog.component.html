@@ -1,48 +1,81 @@
-<div>
-  <mat-form-field color="accent" *ngIf="this.constants.isEmployee">
-    <mat-label>Besitzer UID</mat-label>
-    <input matInput type="text" [(ngModel)]="data.uid">
-  </mat-form-field>
-</div>
-<div>
-  <mat-form-field color="accent">
-    <mat-label>Name</mat-label>
-    <input matInput type="text" [(ngModel)]="data.animalname">
-  </mat-form-field>
-</div>
-<div>
-  <mat-form-field color="accent">
-    <mat-label>Art</mat-label>
-    <input matInput type="text" [(ngModel)]="data.animaltype">
-  </mat-form-field>
-</div>
-<div>
-  <mat-form-field color="accent">
-    <mat-label>Rasse</mat-label>
-    <input matInput type="text" [(ngModel)]="data.animalrace">
-  </mat-form-field>
-</div>
-<div>
-  <mat-form-field color="accent" >
-    <mat-label>Größe (in cm)</mat-label>
-    <input matInput type="number" [(ngModel)]="data.animalheight">
-  </mat-form-field>
-</div>
-<div>
-  <mat-form-field color="accent">
-    <mat-label>Gewicht (in kg)</mat-label>
-    <input matInput type="number" [(ngModel)]="data.animalweight">
-  </mat-form-field>
-</div>
-<br>
-<br>
-<div *ngIf="isCreateDialog">
-  <button mat-raised-button color="accent" (click)="closeDialog()">Abbrechen</button>
-  <button mat-raised-button color="accent" (click)="addAnimalData()" id="add_animal_button">Hinzufügen</button>
-</div>
+<div *ngIf="this.isEditable">
+  <div>
+    <mat-form-field color="accent" *ngIf="this.constants.isEmployee">
+      <mat-label>Besitzer UID</mat-label>
+      <input matInput type="text" [(ngModel)]="data.uid">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field color="accent">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" [(ngModel)]="data.animalname">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field color="accent">
+      <mat-label>Art</mat-label>
+      <input matInput type="text" [(ngModel)]="data.animaltype">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field color="accent">
+      <mat-label>Rasse</mat-label>
+      <input matInput type="text" [(ngModel)]="data.animalrace">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field color="accent" >
+      <mat-label>Größe (in cm)</mat-label>
+      <input matInput type="number" [(ngModel)]="data.animalheight">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field color="accent">
+      <mat-label>Gewicht (in kg)</mat-label>
+      <input matInput type="number" [(ngModel)]="data.animalweight">
+    </mat-form-field>
+  </div>
+  <br>
+  <br>
+  <div *ngIf="isCreateDialog">
+    <button mat-raised-button color="accent" (click)="closeDialog()">Abbrechen</button>
+    <button mat-raised-button color="accent" (click)="addAnimalData()" id="add_animal_button">Hinzufügen</button>
+  </div>
 
-<div *ngIf="!isCreateDialog">
-  <button mat-raised-button color="accent" (click)="closeDialog()" id="aboart_button">Abbrechen</button>
-  <button mat-raised-button color="accent" (click)="deleteAnimalData()" id="delete_animal_button">Löschen</button>
-  <button mat-raised-button color="accent" (click)="saveAnimalData()" id="update_animal_button">Speichern</button>
+  <div *ngIf="!isCreateDialog">
+    <button mat-raised-button color="accent" (click)="closeDialog()" id="aboart_button">Abbrechen</button>
+    <button mat-raised-button color="accent" (click)="deleteAnimalData()" id="delete_animal_button">Löschen</button>
+    <button mat-raised-button color="accent" (click)="saveAnimalData()" id="update_animal_button">Speichern</button>
+  </div>
+</div>
+<div *ngIf="!this.isEditable">
+  <div>
+    <mat-label>Besitzer UID</mat-label>
+    <a>{{data.uid}}</a>
+  </div>
+  <div>
+    <mat-label>Name</mat-label>
+    <a>{{data.animalname}}</a>
+  </div>
+  <div>
+    <mat-label>Art</mat-label>
+    <a>{{data.animaltype}}</a>
+  </div>
+  <div>
+    <mat-label>Rasse</mat-label>
+    <a>{{data.animalrace}}</a>
+  </div>
+  <div>
+    <mat-label>Größe (in cm)</mat-label>
+    <a>{{data.animalheight}}</a>
+  </div>
+  <div>
+    <mat-label>Gewicht (in kg)</mat-label>
+    <a>{{data.animalweight}}</a>
+  </div>
+  <br>
+  <br>
+  <div>
+    <button mat-raised-button color="accent" (click)="closeDialog()">Schließen</button>
+  </div>
 </div>
