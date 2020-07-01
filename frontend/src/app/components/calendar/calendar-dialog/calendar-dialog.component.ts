@@ -2,6 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {HttpClient} from '@angular/common/http';
 import {GlobalConstantService} from '../../../services/global-constants.service';
+import {IVetUserDataItem} from '../../vetuser/vetuser.component';
 
 export interface AppointmentInfo {
   appointmentid: string;
@@ -12,6 +13,7 @@ export interface AppointmentInfo {
   starttime: string;
   endtime: string;
   animalname: string;
+  cost: number;
 }
 
 @Component({
@@ -37,10 +39,37 @@ export class CalendarDialogComponent {
     await this.httpClient.post('/api/message', {
       uid: this.constants.firebaseUser.uid,
       creationtime: new Date(),
-      messagetitle: 'Termin gelöscht!',
-      messagetext: 'Ihre Termin für den ' + this.data.starttime.split(' ', 2)[0] +
-        ' wurde erfolgreich abgesagt.\n'
+      messagetitle: 'Termin abgesagt!',
+      messagetext: 'Ihr Termin für den ' + this.data.starttime.split(' ', 2)[0] +
+        ' wurde abgesagt.\n'
     }).toPromise();
+    await this.httpClient.post('/api/message', {
+      uid: this.constants.firebaseUser.uid,
+      creationtime: new Date(),
+      messagetitle: 'Behandlung abgesagt!',
+      messagetext: 'Ihre Behandlung für den ' + this.data.starttime.split(' ', 2)[0] +
+        ' wurde abgesagt.\n'
+    }).toPromise();
+
+    const currentuserdata = await this.httpClient.get<IVetUserDataItem>('/api/vetuser/' + this.data.uid).toPromise();
+
+    let dept;
+    if (currentuserdata.dept == null || currentuserdata.dept === 0){
+      dept = 0;
+    }
+    else
+    {
+      dept = currentuserdata.dept - this.data.cost;
+    }
+
+    await this.httpClient.put('/api/vetuser/' + this.data.uid, {
+      dept,
+      gender: currentuserdata.gender,
+      firstName: currentuserdata.firstName,
+      lastName: currentuserdata.lastName,
+      isEmployee: currentuserdata.isEmployee
+    }).toPromise();
+
     this.dialogRef.close();
   }
 

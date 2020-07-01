@@ -99,21 +99,15 @@ export class CalendarComponent implements OnInit, AfterViewInit{
   }
 
   ngOnInit(): void {
-    // TODO remove when pushing
-      this.uid = this.constants.firebaseUser.uid;
-    // this.uid = '6TbzcPavrSNdq1W1qAKqyfhhvxB2';
-    // if (this.constants.isEmployee) {
-      this.dataSource.paginator = this.paginator;
-      this.loadAppointmentRequests().then();
-    // }
-      this.loadAppointmentData().then();
+    this.uid = this.constants.firebaseUser.uid;
   }
 
   ngAfterViewInit(): void {
-    // if (this.constants.isEmployee) {
+    if (this.constants.isEmployee) {
+      this.dataSource.paginator = this.paginator;
       this.loadAppointmentRequests().then();
-    // }
-      this.loadAppointmentData().then();
+    }
+    this.loadAppointmentData().then();
   }
 
   async openCalendarDialog($event: AppointmentEvent){
@@ -126,7 +120,8 @@ export class CalendarComponent implements OnInit, AfterViewInit{
       date: $event.start,
       starttime: $event.start.toLocaleTimeString(),
       endtime: $event.end.toLocaleTimeString(),
-      animalname: animalData.animalname
+      animalname: animalData.animalname,
+      cost: $event.cost
     };
     const dialogRef = this.dialog.open(CalendarDialogComponent, {
       width: '250px',

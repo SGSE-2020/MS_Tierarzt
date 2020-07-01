@@ -87,7 +87,7 @@ export class AppointmentDialogComponent implements OnInit {
     await this.httpClient.post('/api/message', {
       uid: this.doctorid,
       creationtime: new Date(),
-      messagetitle: 'Vorstehende Bahndlung!',
+      messagetitle: 'Vorstehende Behandlung!',
       messagetext: 'Sie wurden für den ' + this.data.start.split(' ', 2)[0] +
         ' im Zeitraum von ' + this.starttime + ' bis ' +
         this.endtime + ' für eine Behandlung eingetragen.\n' +

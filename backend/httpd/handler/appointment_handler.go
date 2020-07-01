@@ -69,7 +69,7 @@ func HandleGetEmployeeAppointments(db *gocb.Cluster) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		doctorid := c.Param("doctorid")
 
-		c.JSON(http.StatusAccepted, operations.GetUserAppointments(db, &doctorid))
+		c.JSON(http.StatusAccepted, operations.GetEmployeeAppointments(db, &doctorid))
 	}
 }
 
@@ -77,7 +77,7 @@ func HandleGetUserAppointments(db *gocb.Cluster) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userid := c.Param("userid")
 
-		c.JSON(http.StatusAccepted, operations.GetEmployeeAppointments(db, &userid))
+		c.JSON(http.StatusAccepted, operations.GetUserAppointments(db, &userid))
 	}
 }
 
