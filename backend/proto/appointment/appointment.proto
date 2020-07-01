@@ -6,7 +6,7 @@ option go_package = "server/proto;appointment";
 
 service AppointmentService {
   rpc CreateAppointment (AppointmentCreate) returns (AppointmentID);
-  rpc RequestAppointment (AppointmentRequest) returns (AppointmentResponse);
+  rpc RequestAppointment (AppointmentRequest) returns (AppointmentData);
   rpc DecideAppointment (AppointmentID) returns (AppointmentData);
   rpc DeleteAppointment (AppointmentID) returns (Status);
   rpc GetAppointment (AppointmentID) returns (AppointmentData);
@@ -60,15 +60,9 @@ message AppointmentRequest {
   string reason = 6;
 }
 
-message AppointmentResponse {
-  string uid = 1;
-  string start = 2;
-  string end = 3;
-  double cost = 4;
-}
-
 message Appointment {
-  string uid = 1;
-  string start = 2;
-  string end = 3;
+  string appointmentid = 1;
+  string uid = 2;
+  string start = 3;
+  string end = 4;
 }
