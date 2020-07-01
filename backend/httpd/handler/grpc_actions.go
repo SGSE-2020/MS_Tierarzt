@@ -93,7 +93,7 @@ func GetIban() gin.HandlerFunc {
 		userid := c.Param("userid")
 
 		userData := account.UserId{
-			Userid: userid,
+			UserId: userid,
 		}
 
 		if ConnectGRPC(GRPC_HOST_BANK) {

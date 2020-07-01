@@ -33,7 +33,7 @@ export class PaymentDialogComponent {
       iban: this.data.iban,
       destiban: this.data.destiban,
       purpose: this.data.purpose,
-      amount: this.data.dept,
+      amount: this.data.dept.toString(),
     }).toPromise();
     this.dialogRef.close();
 
