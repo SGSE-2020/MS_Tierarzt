@@ -3,6 +3,7 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {HttpClient} from '@angular/common/http';
 import {GlobalConstantService} from '../../../services/global-constants.service';
 import {PaymentInfo} from '../administration.component';
+import {IVetUserDataItem} from '../../vetuser/vetuser.component';
 
 interface TransferMessage {
   status: string;
@@ -25,6 +26,8 @@ export class PaymentDialogComponent {
   }
 
   async payDept() {
+    console.log(JSON.stringify(this.data));
+
     const transferMessage = await this.httpClient.post<TransferMessage>('/api/bank', {
       user_id: this.data.uid,
       iban: this.data.iban,
@@ -35,6 +38,17 @@ export class PaymentDialogComponent {
     this.dialogRef.close();
 
     console.log(JSON.stringify(transferMessage));
+
+    if (transferMessage.status === '200'){
+      const currentuserdata = await this.httpClient.get<IVetUserDataItem>('/api/vetuser/' + this.data.uid).toPromise();
+      await this.httpClient.put('/api/vetuser/' + this.data.uid, {
+        gender: currentuserdata.gender,
+        firstName: currentuserdata.firstName,
+        lastName: currentuserdata.lastName,
+        isEmployee: currentuserdata.isEmployee,
+        dept: 0
+      }).toPromise();
+    }
   }
 
   closeDialog(){
