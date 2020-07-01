@@ -43,10 +43,12 @@ func UpdateAnimal(db *gocb.Cluster, animalCreation *animal.AnimalData) animal.An
 		"v.`animalweight` = $animalweight, " +
 		"v.`animaltype` = $animaltype, " +
 		"v.`animalrace` = $animalrace " +
+		"v.`uid` = $uid " +
 		"WHERE v.`animalname` IS NOT NULL " +
 		"AND v.`animalid` == $animalid " +
 		"RETURNING v.*;"
 	params := make(map[string]interface{}, 2)
+	params["uid"] = animalCreation.Uid
 	params["animalid"] = animalCreation.Animalid
 	params["animalname"] = animalCreation.Animalname
 	params["animalheight"] = animalCreation.Animalheight
