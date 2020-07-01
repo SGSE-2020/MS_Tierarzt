@@ -19,6 +19,7 @@ func CreateAppointment(db *gocb.Cluster, appointmentCreate *appointment.Appointm
 		Animalid: appointmentCreate.Animalid,
 		Cost: appointmentCreate.Cost,
 		Reason: appointmentCreate.Reason,
+		Doctorid: appointmentCreate.Doctorid,
 	}
 
 	_, err := collection.Upsert(uuid, appointmentData, &gocb.UpsertOptions{})
@@ -55,6 +56,39 @@ func GetUserAppointments(db *gocb.Cluster, uid *string) []appointment.Appointmen
 		"AND v.`uid` == $uid;"
 	params := make(map[string]interface{}, 2)
 	params["uid"] = uid
+
+	results, err := db.Query(query,
+		&gocb.QueryOptions{NamedParameters: params})
+	if err != nil {
+		panic(err)
+	}
+
+	var allAppointmentData []appointment.AppointmentData
+
+	for results.Next() {
+		var appointmentData appointment.AppointmentData
+		err := results.Row(&appointmentData)
+		if err != nil {
+			panic(err)
+		}
+		allAppointmentData = append(allAppointmentData, appointmentData)
+	}
+
+	// always check for errors after iterating
+	err = results.Err()
+	if err != nil {
+		panic(err)
+	}
+
+	return allAppointmentData
+}
+
+func GetEmployeeAppointments(db *gocb.Cluster, doctorid *string) []appointment.AppointmentData {
+	query := "SELECT v.* FROM `vetservice` as v " +
+		"WHERE v.`appointmentid` IS NOT NULL " +
+		"AND v.`doctorid` == $doctorid;"
+	params := make(map[string]interface{}, 2)
+	params["doctorid"] = doctorid
 
 	results, err := db.Query(query,
 		&gocb.QueryOptions{NamedParameters: params})
@@ -135,6 +169,25 @@ func GetAppointment(db *gocb.Cluster, appointmentid *string) appointment.Appoint
 		}
 	}
 	return appointmentData
+}
+
+func DeleteAppointment(db *gocb.Cluster, appointmentid *string) error {
+	query := "DELETE FROM `vetservice` as v " +
+		"WHERE v.`appointmentid` == $appointmentid " +
+		"RETURNING v.`appointmentid`;"
+	params := make(map[string]interface{}, 2)
+	params["appointmentid"] = appointmentid
+
+	results, err := db.Query(query,
+		&gocb.QueryOptions{NamedParameters: params})
+	if err != nil {
+		panic(err)
+	}
+
+	results.Next()
+	var deletedId string
+
+	return results.Row(deletedId)
 }
 
 func DeleteAppointmentRequest(db *gocb.Cluster, requestid *string) error {

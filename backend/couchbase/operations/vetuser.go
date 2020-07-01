@@ -124,3 +124,35 @@ func GetAllVetUsers(db *gocb.Cluster) []vetuser.VetUser {
 
 	return allUserData
 }
+
+func GetAllEmployees(db *gocb.Cluster) []vetuser.VetUser {
+	query := "SELECT v.* FROM `vetservice` as v " +
+		"WHERE v.`vid` IS NOT NULL " +
+		"AND v.`isEmployee` == true;"
+	params := make(map[string]interface{}, 2)
+
+	results, err := db.Query(query,
+		&gocb.QueryOptions{NamedParameters: params})
+	if err != nil {
+		panic(err)
+	}
+
+	var allUserData []vetuser.VetUser
+
+	for results.Next() {
+		var userData vetuser.VetUser
+		err := results.Row(&userData)
+		if err != nil {
+			panic(err)
+		}
+		allUserData = append(allUserData, userData)
+	}
+
+	// always check for errors after iterating
+	err = results.Err()
+	if err != nil {
+		panic(err)
+	}
+
+	return allUserData
+}

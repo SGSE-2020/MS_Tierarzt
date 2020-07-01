@@ -50,9 +50,14 @@ func main() {
 		api.PUT("/vetuser/:userid", handler.HandleUpdateVetUser(db))
 		api.DELETE("/vetuser/:userid", handler.HandleVetUserDelete(db))
 
+		// Employee
+		api.GET("/employee", handler.HandleGetAllEmployees(db))
+		api.GET("/employee/:doctorid/appointment", handler.HandleGetEmployeeAppointments(db))
+
 		// Appointments
 		api.POST("/appointment", handler.HandleAppointmentCreate(db))
 		api.GET("/appointment/:appointmentid", handler.HandleGetAppointment(db))
+		api.DELETE("/appointment/:appointmentid", handler.HandleDeleteAppointment(db))
 		api.POST("/appointmentrequest", handler.HandleCreateAppointmentRequest(db))
 		api.GET("/appointmentrequest", handler.HandleGetAppointmentRequests(db))
 		api.DELETE("/appointmentrequest/:requestid", handler.HandleDeleteAppointmentRequest(db))

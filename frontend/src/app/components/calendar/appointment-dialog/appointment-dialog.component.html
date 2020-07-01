@@ -26,6 +26,16 @@
 </div>
 <div id="response">
   <div>
+    <mat-form-field color="accent">
+      <mat-label>Arzt</mat-label>
+      <mat-select [(ngModel)]="doctorid">
+        <mat-option *ngFor="let doctor of doctors" [value]="doctor.uid">
+          {{doctor.firstName + ' ' + doctor.lastName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div>
     <mat-form-field color="accent" >
       <mat-label>Beginn</mat-label>
       <input matInput type="time" [(ngModel)]="starttime">

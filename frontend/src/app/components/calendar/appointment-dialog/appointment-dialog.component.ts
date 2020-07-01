@@ -18,6 +18,8 @@ export class AppointmentDialogComponent implements OnInit {
   starttime: string;
   endtime: string;
   cost: number;
+  doctorid: string;
+  doctors: IVetUserDataItem[] = [];
 
   constructor(private httpClient: HttpClient,
               public dialog: MatDialog,
@@ -51,7 +53,8 @@ export class AppointmentDialogComponent implements OnInit {
       start: startdate,
       end: enddate,
       animalid: this.data.animalid,
-      cost: this.cost
+      cost: this.cost,
+      doctorid: this.doctorid
     }).toPromise();
 
     const currentuserdata = await this.httpClient.get<IVetUserDataItem>('/api/vetuser/' + this.data.uid).toPromise();
@@ -80,6 +83,15 @@ export class AppointmentDialogComponent implements OnInit {
         ' wurde für den Zeitraum von ' + this.starttime + ' bis ' +
         this.endtime + ' festgelegt.\n' +
         'Die Kosten werden sich vorraussichtlich auf ' + this.cost + '€ belaufen.'
+    }).toPromise();
+    await this.httpClient.post('/api/message', {
+      uid: this.doctorid,
+      creationtime: new Date(),
+      messagetitle: 'Vorstehende Bahndlung!',
+      messagetext: 'Sie wurden für den ' + this.data.start.split(' ', 2)[0] +
+        ' im Zeitraum von ' + this.starttime + ' bis ' +
+        this.endtime + ' für eine Behandlung eingetragen.\n' +
+        'Der Behandlungsgrund ist: ' + this.data.reason
     }).toPromise();
     this.dialogRef.close();
   }

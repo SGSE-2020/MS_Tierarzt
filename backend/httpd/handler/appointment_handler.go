@@ -15,6 +15,7 @@ func HandleAppointmentCreate(db *gocb.Cluster) gin.HandlerFunc {
 
 		appointmentData := appointment.AppointmentCreate{
 			Uid: requestBody.Uid,
+			Doctorid: requestBody.Doctorid,
 			Start: requestBody.Start,
 			End: requestBody.End,
 			Animalid: requestBody.Animalid,
@@ -66,9 +67,25 @@ func HandleGetAppointmentRequests(db *gocb.Cluster) gin.HandlerFunc {
 
 func HandleGetUserAppointments(db *gocb.Cluster) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		doctorid := c.Param("doctorid")
+
+		c.JSON(http.StatusAccepted, operations.GetUserAppointments(db, &doctorid))
+	}
+}
+
+func HandleGetEmployeeAppointments(db *gocb.Cluster) gin.HandlerFunc {
+	return func(c *gin.Context) {
 		userid := c.Param("userid")
 
-		c.JSON(http.StatusAccepted, operations.GetUserAppointments(db, &userid))
+		c.JSON(http.StatusAccepted, operations.GetEmployeeAppointments(db, &userid))
+	}
+}
+
+func HandleDeleteAppointment(db *gocb.Cluster) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		appointmentid := c.Param("appointmentid")
+
+		c.JSON(http.StatusAccepted, operations.DeleteAppointment(db, &appointmentid))
 	}
 }
 

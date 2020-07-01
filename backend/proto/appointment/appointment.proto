@@ -28,11 +28,12 @@ message AppointmentID {
 
 message AppointmentCreate {
   string uid = 1;
-  string start = 2;
-  string end = 3;
-  double cost = 4;
-  string animalid = 5;
-  string reason = 6;
+  string doctorid = 2;
+  string start = 3;
+  string end = 4;
+  double cost = 5;
+  string animalid = 6;
+  string reason = 7;
 }
 
 message AppointmentData {

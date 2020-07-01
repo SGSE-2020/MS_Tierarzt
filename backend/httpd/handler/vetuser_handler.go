@@ -35,6 +35,12 @@ func HandleGetAllVetUser(db *gocb.Cluster) gin.HandlerFunc {
 	}
 }
 
+func HandleGetAllEmployees(db *gocb.Cluster) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.JSON(http.StatusOK, operations.GetAllEmployees(db))
+	}
+}
+
 func HandleGetVetUser(db *gocb.Cluster) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userid := c.Param("userid")

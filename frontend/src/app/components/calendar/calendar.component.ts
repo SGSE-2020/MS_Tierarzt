@@ -12,6 +12,7 @@ import {GlobalConstantService} from '../../services/global-constants.service';
 import {IAnimalDataItem} from '../animal/animal.component';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import {IVetUserDataItem} from '../vetuser/vetuser.component';
 
 const colors: any = {
   red: {
@@ -32,6 +33,8 @@ export interface AppointmentEvent extends CalendarEvent {
   animal?: string;
   cost?: number;
   appointmentid: string;
+  uid: string;
+  doctorid: string;
 }
 
 export interface AppointmentRequest {
@@ -116,6 +119,9 @@ export class CalendarComponent implements OnInit, AfterViewInit{
   async openCalendarDialog($event: AppointmentEvent){
     const animalData = await this.httpClient.get<IAnimalDataItem>('/api/animal/' + $event.animal).toPromise();
     const appointmentInfo: AppointmentInfo = {
+      appointmentid: $event.appointmentid,
+      uid: $event.uid,
+      doctorid: $event.doctorid,
       reason: $event.title,
       date: $event.start,
       starttime: $event.start.toLocaleTimeString(),
@@ -136,11 +142,13 @@ export class CalendarComponent implements OnInit, AfterViewInit{
     });
   }
 
-  openAppointmentDialog($request: AppointmentRequest): void {
+  async openAppointmentDialog($request: AppointmentRequest) {
+    const doctors = await this.httpClient.get<IVetUserDataItem[]>('/api/employee').toPromise();
     const dialogRef = this.dialog.open(AppointmentDialogComponent, {
       width: '500px',
       data: $request
     });
+    dialogRef.componentInstance.doctors = doctors;
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -171,9 +179,33 @@ export class CalendarComponent implements OnInit, AfterViewInit{
   }
 
   async loadAppointmentData(){
+    this.events = [];
+    if (this.constants.isEmployee){
+      await this.httpClient.get<AppointmentData[]>('/api/employee/' + this.uid + '/appointment').subscribe((val: any) => {
+        this.appointmentData = val;
+        for (const appointment of this.appointmentData){
+          const startDate = this.createDateFromString(appointment.start);
+          const endDate = this.createDateFromString(appointment.end);
+
+          this.events = [
+            ...this.events,
+            {
+              appointmentid: appointment.appointmentid,
+              uid: appointment.uid,
+              doctorid: appointment.doctorid,
+              title: appointment.reason,
+              animal: appointment.animalid,
+              start: startDate,
+              end: endDate,
+              color: colors.blue,
+              cost: appointment.cost,
+            },
+          ];
+        }
+      });
+    }
     await this.httpClient.get<AppointmentData[]>('/api/vetuser/' + this.uid + '/appointment').subscribe((val: any) => {
       this.appointmentData = val;
-      this.events = [];
       for (const appointment of this.appointmentData){
         const startDate = this.createDateFromString(appointment.start);
         const endDate = this.createDateFromString(appointment.end);
@@ -182,6 +214,8 @@ export class CalendarComponent implements OnInit, AfterViewInit{
           ...this.events,
           {
             appointmentid: appointment.appointmentid,
+            uid: appointment.uid,
+            doctorid: appointment.doctorid,
             title: appointment.reason,
             animal: appointment.animalid,
             start: startDate,
