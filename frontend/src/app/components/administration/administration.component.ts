@@ -43,7 +43,7 @@ export class AdministrationComponent implements OnInit{
     this.paymentInfo = {
       uid: this.constants.firebaseUser.uid,
       iban: account.iban,
-      destiban: 'DE 23 1520 0000 6133 1514 20',
+      destiban: 'DE 23 1520 0000 3728 9361 66',
       purpose: 'Tierarztkosten  von ' + this.vetuserData.firstName + ' ' + this.vetuserData.lastName,
       dept: this.vetuserData.dept,
     };
