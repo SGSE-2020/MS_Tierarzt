@@ -44,7 +44,7 @@ export class CalendarDialogComponent {
         ' wurde abgesagt.\n'
     }).toPromise();
     await this.httpClient.post('/api/message', {
-      uid: this.constants.firebaseUser.uid,
+      uid: this.data.doctorid,
       creationtime: new Date(),
       messagetitle: 'Behandlung abgesagt!',
       messagetext: 'Ihre Behandlung für den ' + this.data.starttime.split(' ', 2)[0] +

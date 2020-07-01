@@ -4,7 +4,7 @@
       <mat-label>Besitzer</mat-label>
       <mat-select [(ngModel)]="data.uid">
         <mat-option *ngFor="let user of users" [value]="user.uid">
-          {{user.firstname + ' ' + user.lastName}}
+          {{user.firstName + ' ' + user.lastName}}
         </mat-option>
       </mat-select>
     </mat-form-field>

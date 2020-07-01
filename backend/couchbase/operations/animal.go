@@ -102,8 +102,9 @@ func GetAllAnimals(db *gocb.Cluster) []animal.AnimalData {
 }
 
 func GetAnimal(db *gocb.Cluster, animalid *string) animal.AnimalData {
-	query := "SELECT v.* FROM `vetservice` as v " +
-		"WHERE v.`animalid` IS NOT NULL " +
+	query := "SELECT v.* " +
+		"FROM `vetservice` as v " +
+		"WHERE v.`animalname` IS NOT NULL " +
 		"AND v.`animalid` == $animalid;"
 	params := make(map[string]interface{}, 2)
 	params["animalid"] = animalid
