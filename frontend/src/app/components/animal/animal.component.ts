@@ -62,14 +62,16 @@ export class AnimalComponent implements OnInit, AfterViewInit {
   }
 
   async openAnimalDialog($animalData: IAnimalDataItem, isCreate: boolean){
-    const vetUser = await this.httpClient.get<IVetUserDataItem[]>('/api/vetuser/').toPromise();
     const dialogRef = this.dialog.open(AnimalDialogComponent, {
       width: '360px',
       data: $animalData
     });
     dialogRef.componentInstance.isCreateDialog = isCreate;
     dialogRef.componentInstance.isEditable = true;
-    dialogRef.componentInstance.users = vetUser;
+    if (this.constants.isEmployee) {
+      const vetUser = await this.httpClient.get<IVetUserDataItem[]>('/api/vetuser').toPromise();
+      dialogRef.componentInstance.users = vetUser;
+    }
     dialogRef.afterClosed().subscribe(() => {
       this.loadAnimalData().then();
     });
