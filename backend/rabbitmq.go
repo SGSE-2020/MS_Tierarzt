@@ -17,7 +17,7 @@ func failOnError(err error, msg string) {
 func main() {
 	db := couchbase.ConnectCouchbase()
 
-	conn, err := amqp.Dial("amqp://testmanager:sgseistgeil@rabbitmq.dvess.network:5672/")
+	conn, err := amqp.Dial("amqp://testmanager:sgseistgeil@ms-rabbitmq:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
