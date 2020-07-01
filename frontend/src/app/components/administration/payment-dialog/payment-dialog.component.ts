@@ -7,7 +7,7 @@ import {IVetUserDataItem} from '../../vetuser/vetuser.component';
 
 interface TransferMessage {
   status: string;
-  user_id: string;
+  userid: string;
   lastname: string;
   message: string;
 }
@@ -29,9 +29,9 @@ export class PaymentDialogComponent {
     console.log(JSON.stringify(this.data));
 
     const transferMessage = await this.httpClient.post<TransferMessage>('/api/bank', {
-      user_id: this.data.uid,
+      userid: this.data.uid,
       iban: this.data.iban,
-      dest_iban: this.data.destiban,
+      destiban: this.data.destiban,
       purpose: this.data.purpose,
       amount: this.data.dept,
     }).toPromise();
