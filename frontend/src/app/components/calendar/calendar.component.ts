@@ -135,6 +135,10 @@ export class CalendarComponent implements OnInit, AfterViewInit{
       width: '250px',
       data: userAnimals
     });
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadAppointmentRequests().then();
+      this.loadAppointmentData().then();
+    });
   }
 
   async openAppointmentDialog($request: AppointmentRequest) {
@@ -144,6 +148,10 @@ export class CalendarComponent implements OnInit, AfterViewInit{
       data: $request
     });
     dialogRef.componentInstance.doctors = doctors;
+    dialogRef.afterClosed().subscribe(() => {
+      this.loadAppointmentRequests().then();
+      this.loadAppointmentData().then();
+    });
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
